@@ -122,19 +122,20 @@ export default async function RootLayout({
                   </div>
                 </div>
               </aside>
+            </>
           )}
 
-              {/* MAIN CONTENT WRAPPER */}
-              {/* Flex layout handles spacing strictly now - no magic margins */}
-              <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full">
-                <div className="lg:hidden p-4 border-b-2 border-amber-400 flex justify-between items-center bg-blue-900 sticky top-0 z-40 text-white">
-                  <span className="font-black uppercase tracking-tighter">Zerotouches</span>
-                  <span className="text-xs font-mono bg-amber-400 text-blue-950 px-2 py-1 font-bold">MENU</span>
-                </div>
-                <IncomingCallToast />
-                {children}
-              </main>
+          {/* MAIN CONTENT WRAPPER */}
+          {/* Flex layout handles spacing strictly now - no magic margins */}
+          <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full">
+            <div className="lg:hidden p-4 border-b-2 border-amber-400 flex justify-between items-center bg-blue-900 sticky top-0 z-40 text-white">
+              <span className="font-black uppercase tracking-tighter">Zerotouches</span>
+              <span className="text-xs font-mono bg-amber-400 text-blue-950 px-2 py-1 font-bold">MENU</span>
             </div>
+            <IncomingCallToast />
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
