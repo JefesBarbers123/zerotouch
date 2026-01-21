@@ -1,12 +1,13 @@
 
 import twilio from 'twilio'
+import { env } from '@/env'
 
 export function getTwilioClient() {
-    const accountSid = process.env.TWILIO_ACCOUNT_SID
-    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const accountSid = env.TWILIO_ACCOUNT_SID
+    const authToken = env.TWILIO_AUTH_TOKEN
 
     if (!accountSid || !authToken) {
-        throw new Error("Missing Twilio Credentials")
+        throw new Error("Missing Twilio Credentials in environment")
     }
 
     return twilio(accountSid, authToken)

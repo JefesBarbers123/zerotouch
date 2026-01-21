@@ -1,10 +1,10 @@
-
 'use server'
 
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { stripe, formatAmount, PLANS } from '@/lib/stripe'
-import { redirect } from 'next/navigation'
+import { getStripe, formatAmount, PLANS } from "@/lib/stripe";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export async function getBillingData() {
     const user = await getCurrentUser()
@@ -25,6 +25,7 @@ export async function createTopUpCheckout(amount: number) {
     if (!user) throw new Error("Unauthorized")
 
     // Amount in pence (e.g. 1000 = £10.00)
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -58,6 +59,7 @@ export async function createSubscriptionCheckout() {
     const user = await getCurrentUser()
     if (!user) throw new Error("Unauthorized")
 
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [

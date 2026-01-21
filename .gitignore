@@ -42,3 +42,6 @@ prisma/dev.db-journal
 # scripts output
 verify_output.txt
 verify_final.txt
+
+.vercel
+.env*.local

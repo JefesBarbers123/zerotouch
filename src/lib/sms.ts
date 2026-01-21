@@ -1,4 +1,5 @@
 import { getTwilioClient } from './twilio'
+import { env } from '@/env'
 
 export interface SMSRequest {
     to: string
@@ -15,7 +16,7 @@ export async function sendSMS({ to, body }: SMSRequest) {
         // The user has 'Concierge' so they likely have a number in DB.
         // For this function to be generic, we might need the 'from' numberpassed in.
         // But let's check env first for a fallback.
-        const from = process.env.TWILIO_PHONE_NUMBER
+        const from = env.TWILIO_PHONE_NUMBER
 
         if (!from) {
             console.warn("TWILIO_PHONE_NUMBER not set in env. Using Mock for now if no number provided.")

@@ -1,6 +1,6 @@
 import { headers } from 'next/headers'
 import { prisma } from '@/lib/prisma'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import Stripe from 'stripe'
 
 export const dynamic = 'force-dynamic'
@@ -8,6 +8,10 @@ export const dynamic = 'force-dynamic'
 export async function POST(req: Request) {
     const body = await req.text()
     const signature = headers().get('Stripe-Signature') as string
+
+    // getStripe will throw if secret is missing, which is good.
+    // Ideally we check env.STRIPE_WEBHOOK_SECRET too.
+    const stripe = getStripe()
 
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
         console.error("Missing STRIPE_WEBHOOK_SECRET")

@@ -1,5 +1,6 @@
 
 import { google } from 'googleapis'
+import { env } from '@/env'
 
 const SCOPES = [
     'https://www.googleapis.com/auth/calendar.readonly',
@@ -8,15 +9,17 @@ const SCOPES = [
 ]
 
 export function getOAuthClient() {
-    const clientId = process.env.GOOGLE_CLIENT_ID
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI || `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3003'}/settings/integrations/callback`
+    const clientId = env.GOOGLE_CLIENT_ID
+    const clientSecret = env.GOOGLE_CLIENT_SECRET
+    const redirectUri = env.GOOGLE_REDIRECT_URI || `${env.NEXT_PUBLIC_APP_URL}/settings/integrations/callback`
 
-    console.log({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET ? '***HIDDEN***' : 'undefined', // partial hide for safety in logs unless user insists
-        redirectUri
-    })
+    if (process.env.NODE_ENV === 'development') {
+        console.log({
+            clientId: !!clientId,
+            clientSecret: !!clientSecret,
+            redirectUri
+        })
+    }
 
     if (!clientId || !clientSecret) {
         throw new Error("Missing Google Credentials in .env")

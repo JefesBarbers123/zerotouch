@@ -1,14 +1,15 @@
 import { Resend } from 'resend'
+import { env } from '@/env'
 
-const resendApiKey = process.env.RESEND_API_KEY
+// env.RESEND_API_KEY is validated (optional)
 
 export async function sendEmail({ to, subject, html, text }: { to: string, subject: string, html?: string, text?: string }) {
-    if (!resendApiKey) {
+    if (!env.RESEND_API_KEY) {
         console.warn("RESEND_API_KEY is missing. Email not sent.")
         return { success: false, error: "Missing API Key" }
     }
 
-    const resend = new Resend(resendApiKey)
+    const resend = new Resend(env.RESEND_API_KEY)
 
     try {
         const { data, error } = await resend.emails.send({
