@@ -49,10 +49,10 @@ export default async function RootLayout({
                     <NavLink href="/check-in">Check In</NavLink>
                   </>
                 ) : (
-                  <div className="opacity-50 pointer-events-none grayscale">
-                    <NavLink href="#">Dashboard 🔒</NavLink>
-                    <NavLink href="#">Clients 🔒</NavLink>
-                    <NavLink href="#">Check In 🔒</NavLink>
+                  <div className="opacity-70 group-hover:opacity-100">
+                    <NavLink href="/upgrade">Dashboard 🔒</NavLink>
+                    <NavLink href="/upgrade">Clients 🔒</NavLink>
+                    <NavLink href="/upgrade">Check In 🔒</NavLink>
                   </div>
                 )}
 
@@ -65,7 +65,7 @@ export default async function RootLayout({
                   {user.tenant.subscriptionStatus === 'ACTIVE' ? (
                     <NavLink href="/settings/phone">Concierge Phone</NavLink>
                   ) : (
-                    <NavLink href="#" className="opacity-50 pointer-events-none grayscale">Concierge Phone 🔒</NavLink>
+                    <NavLink href="/upgrade">Concierge Phone 🔒</NavLink>
                   )}
 
                   <div className="pt-4 pb-2 text-xs font-bold text-amber-500/50 uppercase tracking-widest">Network</div>
@@ -74,7 +74,6 @@ export default async function RootLayout({
                   {user.role === 'OWNER' && (
                     <NavLink href="/shop/profile">Shop Profile</NavLink>
                   )}
-                  <NavLink href="/recruitment">Discovery</NavLink>
                   <NavLink href="/jobs">Job Board</NavLink>
                   <NavLink href="/notifications">Alerts</NavLink>
                   <NavLink href="/assisted">AI Console</NavLink>
