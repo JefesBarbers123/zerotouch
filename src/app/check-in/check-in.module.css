@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.searchGroup {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #000;
+}
+
+.results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-top: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.resultItem:hover {
+  background: #f9f9f9;
+}
+
+.selectedClient {
+  padding: 1rem;
+  background: #fdfdfd;
+  border: 1px solid #222;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.serviceCard {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.serviceCard:hover {
+  border-color: #999;
+}
+
+.serviceCard.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1.2rem;
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submitButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.createPrompt {
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  background: #f5f5f5;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.createButton {
+  margin-top: 0.5rem;
+  background: #fff;
+  border: 1px solid #666;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.createForm {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  background: #fafafa;
+}
+
+.saveClientButton {
+  margin-top: 1rem;
+  width: 100%;
+  background: black;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+}

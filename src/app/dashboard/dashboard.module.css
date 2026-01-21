@@ -1,0 +1,71 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 32px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.2s;
+}
+
+.card:hover {
+    border-color: #000000;
+}
+
+.cardTitle {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666666;
+    font-weight: 600;
+}
+
+.cardValue {
+    font-size: 56px;
+    font-family: 'Playfair Display', serif;
+    color: #000000;
+    line-height: 1;
+    font-weight: 900;
+    margin-top: 12px;
+}
+
+.cardSub {
+    font-size: 13px;
+    color: #888888;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+.section {
+    margin-top: 64px;
+}
+
+.sectionHeader {
+    font-size: 32px;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 16px;
+    display: inline-block;
+}
+
+/* Status colors - keep them minimal */
+.success {
+    color: #000;
+    text-decoration: underline;
+    text-decoration-color: #10b981;
+}
+
+.risk {
+    color: #000;
+    text-decoration: underline;
+    text-decoration-color: #ef4444;
+}

@@ -1,0 +1,6 @@
+--- USERS FOUND ---
+[OWNER] Mario (Owner) (owner@bladefades.com) - Shop: Blade & Fades
+[BARBER] Luigi (Barber) (luigi@bladefades.com) - Shop: Blade & Fades
+[OWNER] Test Owner (test-owner@example.com) - Shop: Blade & Fades
+[OWNER] Jerelle Obina Okoro (askthejefe@gmail.com) - Shop: Jefe Barbers
+-------------------

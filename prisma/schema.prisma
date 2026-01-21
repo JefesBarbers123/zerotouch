@@ -1,0 +1,332 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id                  String              @id @default(cuid())
+  name                String
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  phone               String?
+  address             String?
+  churnThresholdDays  Int                 @default(28)
+  twilioNumber        String?
+  twilioSid           String?
+  stripeCustomerId    String?
+  subscriptionStatus  String              @default("FREE")
+  walletBalance       Decimal             @default(0.00)
+  smsAutoReplyEnabled Boolean             @default(true)
+  smsAutoReplyMessage String?             @default("Sorry, I missed your call. Whats up? Ill call you back in a second")
+  retentionSmsEnabled Boolean             @default(false)
+  automations         Automation[]
+  callLogs            CallLog[]
+  clients             Client[]
+  integrations        Integration[]
+  services            Service[]
+  shopProfile         ShopProfile?
+  users               User[]
+  visits              Visit[]
+  transactions        WalletTransaction[]
+}
+
+model Integration {
+  id           String   @id @default(cuid())
+  tenantId     String
+  provider     String
+  accessToken  String
+  refreshToken String?
+  expiresAt    BigInt?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+}
+
+model CallLog {
+  id         String   @id @default(cuid())
+  tenantId   String
+  from       String
+  to         String
+  status     String
+  clientName String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  role          String
+  emailNotificationsEnabled Boolean @default(true)
+  tenantId      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  barberProfile BarberProfile?
+  notifications Notification[]
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  visits        Visit[]
+  supportTickets SupportTicket[]
+}
+
+model Client {
+  id                 String    @id @default(cuid())
+  name               String
+  mobile             String
+  email              String?
+  tenantId           String
+  lastVisitDate      DateTime?
+  expectedReturnDate DateTime?
+  notes              String?
+  status             String    @default("NEW")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  smsFeedbackStatus  String    @default("IDLE")
+  tenant             Tenant    @relation(fields: [tenantId], references: [id])
+  messages           Message[]
+  visits             Visit[]
+}
+
+model Service {
+  id       String  @id @default(cuid())
+  name     String
+  duration Int
+  price    Decimal
+  tenantId String
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  visits   Visit[]
+}
+
+model Visit {
+  id            String   @id @default(cuid())
+  date          DateTime
+  notes         String?
+  tenantId      String
+  clientId      String
+  barberId      String
+  serviceId     String
+  status        String   @default("COMPLETED")
+  googleEventId String?  @unique
+  createdAt     DateTime @default(now())
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  client        Client   @relation(fields: [clientId], references: [id])
+  barber        User     @relation(fields: [barberId], references: [id])
+  service       Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Message {
+  id       String   @id @default(cuid())
+  content  String
+  direction String   @default("OUTBOUND")
+  status   String
+  sentAt   DateTime @default(now())
+  clientId String
+  client   Client   @relation(fields: [clientId], references: [id])
+}
+
+model Automation {
+  id       String  @id @default(cuid())
+  name     String
+  trigger  String
+  value    Int
+  template String
+  tenantId String
+  isActive Boolean @default(true)
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+}
+
+model BarberProfile {
+  id                 String              @id @default(cuid())
+  userId             String              @unique
+  bio                String?
+  city               String?
+  instagram          String?
+  status             String              @default("NOT_LOOKING")
+  preferences        String?
+  isPublic           Boolean             @default(false)
+  isVerified         Boolean             @default(false)
+  shareStatsWithVerifiedShops Boolean    @default(false)
+  showStats          Boolean             @default(true)
+  experienceYears    Int                 @default(0)
+  clientBaseSize     Int                 @default(0)
+  retentionRate      Float               @default(0.0)
+  averageTicket      Float               @default(0.0)
+  reviewRating       Float               @default(0.0)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  profileImage       String?
+  user               User                @relation(fields: [userId], references: [id])
+  connectionRequests ConnectionRequest[]
+  portfolio          PortfolioImage[]
+  savedByShops       SavedBarber[]
+  savedShops         SavedShop[]
+}
+
+model ShopProfile {
+  id             String              @id @default(cuid())
+  tenantId       String              @unique
+  description    String?
+  city           String?
+  website        String?
+  isHiring       Boolean             @default(false)
+  offeredModels  String?
+  isPublic       Boolean             @default(false)
+  isVerified     Boolean             @default(false)
+  averageBarberEarnings Float          @default(0.0)
+  weeklyFootfall        Int            @default(0)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  logo           String?
+  sentRequests   ConnectionRequest[]
+  portfolio      PortfolioImage[]
+  savedBarbers   SavedBarber[]
+  savedByBarbers SavedShop[]
+  tenant         Tenant              @relation(fields: [tenantId], references: [id])
+}
+
+model PortfolioImage {
+  id              String         @id @default(cuid())
+  url             String
+  caption         String?
+  tags            String?
+  barberProfileId String?
+  shopProfileId   String?
+  createdAt       DateTime       @default(now())
+  shopProfile     ShopProfile?   @relation(fields: [shopProfileId], references: [id])
+  barberProfile   BarberProfile? @relation(fields: [barberProfileId], references: [id])
+}
+
+model ConnectionRequest {
+  id              String        @id @default(cuid())
+  shopProfileId   String
+  barberProfileId String
+  status          String        @default("PENDING")
+  message         String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  barber          BarberProfile @relation(fields: [barberProfileId], references: [id])
+  shop            ShopProfile   @relation(fields: [shopProfileId], references: [id])
+}
+
+model SavedBarber {
+  id        String        @id @default(cuid())
+  shopId    String
+  barberId  String
+  createdAt DateTime      @default(now())
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+  shop      ShopProfile   @relation(fields: [shopId], references: [id])
+
+  @@unique([shopId, barberId])
+}
+
+model SavedShop {
+  id        String        @id @default(cuid())
+  barberId  String
+  shopId    String
+  createdAt DateTime      @default(now())
+  shop      ShopProfile   @relation(fields: [shopId], references: [id])
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+
+  @@unique([barberId, shopId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model WalletTransaction {
+  id          String   @id @default(cuid())
+  tenantId    String
+  amount      Decimal
+  type        String
+  description String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+}
+
+model JobSource {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // "RSS", "API", "SCRAPER_HTML"
+  url         String
+  isActive    Boolean  @default(true)
+  lastChecked DateTime?
+  lastStatus  String?  // "SUCCESS", "ERROR"
+  errorMsg    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  jobs        Job[]
+}
+
+model Job {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  title           String
+  company         String
+  description     String
+  location        String
+  country         String?
+  city            String?
+  remote          Boolean     @default(false)
+  
+  salaryMin       Float?
+  salaryMax       Float?
+  currency        String?     @default("GBP")
+  
+  jobType         String?     // "FULL_TIME", "PART_TIME", "CONTRACT", "APPRENTICESHIP"
+  
+  postedDate      DateTime
+  expiryDate      DateTime?
+  
+  sourceUrl       String      @unique
+  fingerprint     String      @unique // Hash of title+company+location
+  
+  sourceId        String
+  source          JobSource   @relation(fields: [sourceId], references: [id])
+  
+  isPublished     Boolean     @default(true)
+  isFlagged       Boolean     @default(false)
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  reports         JobReport[]
+
+  @@index([location])
+  @@index([title])
+  @@index([company])
+}
+
+model JobReport {
+  id        String   @id @default(cuid())
+  jobId     String
+  reason    String
+  createdAt DateTime @default(now())
+  job       Job      @relation(fields: [jobId], references: [id])
+}
+
+model SupportTicket {
+  id        String   @id @default(cuid())
+  userId    String?
+  email     String
+  subject   String
+  message   String
+  status    String   @default("OPEN")
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+}
