@@ -1,13 +1,19 @@
-
-import { getServices, createService, deleteService, getTenantProfile, updateTenantProfile, getTeamMembers, inviteBarber, deleteTeamMember, updateUserProfile } from './actions'
+import { getServices, getTenantProfile, updateTenantProfile, getTeamMembers, inviteBarber, deleteTeamMember, updateUserProfile } from './actions'
+import { checkPhoneStatus } from './phone/actions'
+import { getGoogleStatus } from './integrations/actions'
 import { getCurrentUser } from '@/lib/auth'
 import Link from 'next/link'
+import ServiceManager from './service-manager'
 
 export default async function SettingsPage() {
     const currentUser = await getCurrentUser()
     const services = await getServices()
     const tenant = await getTenantProfile()
     const team = await getTeamMembers()
+
+    // Status Checks
+    const phoneStatus = await checkPhoneStatus()
+    const googleStatus = await getGoogleStatus()
 
     const isOwner = currentUser?.role === 'OWNER'
 
@@ -119,46 +125,7 @@ export default async function SettingsPage() {
             {/* 3. Services */}
             <section className={sectionClasses} id="services">
                 <h2 className={titleClasses}>Service Menu</h2>
-                <div className="grid grid-cols-1 gap-4 mb-8">
-                    {services.map((service: any) => (
-                        <div key={service.id} className="flex justify-between items-center p-4 bg-blue-950 border border-white/5 hover:border-green-400/50 transition-colors">
-                            <div>
-                                <div className="font-bold uppercase tracking-wider text-sm">{service.name}</div>
-                                <div className="text-[10px] font-mono text-white/40 uppercase">{service.duration} mins • <span className="text-green-400">£{service.price.toFixed(2)}</span></div>
-                            </div>
-                            {isOwner && (
-                                <form action={async () => {
-                                    'use server'
-                                    await deleteService(service.id)
-                                }}>
-                                    <button type="submit" className={secondaryButtonClasses}>Delete</button>
-                                </form>
-                            )}
-                        </div>
-                    ))}
-                    {services.length === 0 && <p className="text-center font-mono text-xs text-white/30 uppercase py-8">No services configured.</p>}
-                </div>
-
-                {isOwner && (
-                    <form action={createService} className="bg-blue-950/50 p-6 border-2 border-dashed border-white/10">
-                        <h3 className="text-xs font-bold uppercase text-white/70 mb-4 tracking-widest">Add New Service</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <label className={labelClasses}>Service Name</label>
-                                <input name="name" type="text" placeholder="e.g. Skin Fade" required className={inputClasses} />
-                            </div>
-                            <div>
-                                <label className={labelClasses}>Price (£)</label>
-                                <input name="price" type="number" step="0.01" placeholder="25.00" required className={inputClasses} />
-                            </div>
-                            <div>
-                                <label className={labelClasses}>Duration (min)</label>
-                                <input name="duration" type="number" step="5" placeholder="30" required className={inputClasses} />
-                            </div>
-                        </div>
-                        <button type="submit" className={buttonClasses}>Add to Menu</button>
-                    </form>
-                )}
+                <ServiceManager services={services} isOwner={isOwner} />
             </section>
 
             {/* 4. Integrations & Systems */}
@@ -167,7 +134,7 @@ export default async function SettingsPage() {
                     <h2 className={titleClasses}>External Links</h2>
                     <p className="text-xs text-white/50 font-mono mb-6 leading-relaxed">
                         Connect third-party calendars and CRM tools.
-                        <br />Status: <span className="text-green-400">ACTIVE</span>
+                        <br />Status: {googleStatus ? <span className="text-green-400">ACTIVE</span> : <span className="text-white/30">DISCONNECTED</span>}
                     </p>
                     <Link href="/settings/integrations" className={buttonClasses + " inline-block text-center w-full"}>
                         Manage Integrations
@@ -178,7 +145,7 @@ export default async function SettingsPage() {
                     <h2 className={titleClasses}>Concierge System</h2>
                     <p className="text-xs text-white/50 font-mono mb-6 leading-relaxed">
                         Configure VOIP numbers, call forwarding, and auto-SMS rules.
-                        <br />Status: <span className="text-amber-400">OPERATIONAL</span>
+                        <br />Status: {phoneStatus?.twilioNumber ? <span className="text-amber-400">OPERATIONAL ({phoneStatus.twilioNumber})</span> : <span className="text-white/30">NOT CONFIGURED</span>}
                     </p>
                     <Link href="/settings/phone" className={buttonClasses + " inline-block text-center w-full"}>
                         Configure Phone

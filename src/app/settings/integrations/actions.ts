@@ -11,6 +11,16 @@ export async function connectGoogle(_formData?: FormData) {
     redirect(url)
 }
 
+export async function getGoogleStatus() {
+    const user = await getCurrentUser()
+    if (!user) return false
+
+    const integration = await prisma.integration.findFirst({
+        where: { tenantId: user.tenantId, provider: 'GOOGLE' }
+    })
+    return !!integration
+}
+
 export async function handleGoogleCallback(code: string) {
     try {
         console.log("[Google Callback] Starting exchange for code:", code.substring(0, 10) + "...")
