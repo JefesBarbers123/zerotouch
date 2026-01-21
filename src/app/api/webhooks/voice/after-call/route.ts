@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getTwilioClient } from '@/lib/twilio'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: Request) {
     try {
         const formData = await req.formData()
