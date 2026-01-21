@@ -4,6 +4,8 @@ import { sendEmail } from '@/lib/email'
 import { headers } from 'next/headers'
 import MessagingResponse from 'twilio/lib/twiml/MessagingResponse'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: Request) {
     const body = await req.text()
     const params = new URLSearchParams(body)
