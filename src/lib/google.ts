@@ -11,7 +11,9 @@ const SCOPES = [
 export function getOAuthClient() {
     const clientId = env.GOOGLE_CLIENT_ID
     const clientSecret = env.GOOGLE_CLIENT_SECRET
-    const redirectUri = env.GOOGLE_REDIRECT_URI || `${env.NEXT_PUBLIC_APP_URL}/settings/integrations/callback`
+    const redirectUri = process.env.NODE_ENV === 'production'
+        ? 'https://zerotouch-silk.vercel.app/settings/integrations/callback'
+        : (env.GOOGLE_REDIRECT_URI || `${env.NEXT_PUBLIC_APP_URL}/settings/integrations/callback`)
 
     if (process.env.NODE_ENV === 'development') {
         console.log({
