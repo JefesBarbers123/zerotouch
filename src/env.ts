@@ -35,7 +35,11 @@ const envSchema = z.object({
     GOOGLE_REDIRECT_URI: z.string().url().optional(),
 
     // App
-    NEXT_PUBLIC_APP_URL: z.string().url().default('http://localhost:3003'),
+    NEXT_PUBLIC_APP_URL: z.string().url().default(
+        process.env.NODE_ENV === 'production'
+            ? 'https://zerotouch-silk.vercel.app' // Fallback for safety if var missing, but prefer var
+            : 'http://localhost:3003'
+    ),
     CRON_SECRET: z.string().optional(),
 });
 

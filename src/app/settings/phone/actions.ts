@@ -1,6 +1,7 @@
 
 'use server'
 
+import { env } from '@/env'
 import { searchLocalNumbers, buyNumber } from '@/lib/twilio'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
@@ -45,7 +46,7 @@ export async function purchaseNumber(phoneNumber: string) {
     if (!user) throw new Error("Unauthorized")
 
     try {
-        const rootUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3003'
+        const rootUrl = env.NEXT_PUBLIC_APP_URL
         const sid = await buyNumber(phoneNumber, rootUrl)
 
         // Save to Tenant

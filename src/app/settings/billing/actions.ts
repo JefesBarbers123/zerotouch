@@ -3,6 +3,7 @@
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { getStripe, formatAmount, PLANS } from "@/lib/stripe";
+import { env } from "@/env";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
@@ -42,8 +43,8 @@ export async function createTopUpCheckout(amount: number) {
             },
         ],
         mode: 'payment',
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
-        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
+        success_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
+        cancel_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
         metadata: {
             tenantId: user.tenantId,
             type: 'TOP_UP'
@@ -69,8 +70,8 @@ export async function createSubscriptionCheckout() {
             },
         ],
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
-        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
+        success_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
+        cancel_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
         metadata: {
             tenantId: user.tenantId,
             type: 'SUBSCRIPTION'
