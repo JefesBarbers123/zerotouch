@@ -113,8 +113,9 @@ export default async function RootLayout({
                         const { logout } = await import('./login/actions')
                         await logout()
                       }}>
-                        <button className="text-[10px] text-amber-400/70 hover:text-red-400 uppercase tracking-widest font-mono">
-                          Disconnect
+                        <button className="mt-1 w-full text-left px-3 py-2 border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-2">
+                          <span>Sign Out</span>
+                          <span className="text-sm">→</span>
                         </button>
                       </form>
                     </div>
