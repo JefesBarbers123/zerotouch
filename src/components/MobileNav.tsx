@@ -94,6 +94,18 @@ export default function MobileNav({ user }: { user: any }) {
                                         <NavLink href="/admin/jobs">Job Moderation</NavLink>
                                     </div>
                                 )}
+
+                                <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
+                                    <form action={async () => {
+                                        'use server'
+                                        const { logout } = await import('../app/login/actions')
+                                        await logout()
+                                    }}>
+                                        <button className="flex items-center w-full px-4 py-3 text-sm font-bold uppercase tracking-wider border-2 border-transparent hover:border-red-400 hover:bg-red-400 hover:text-white transition-all text-red-400/60">
+                                            Sign Out
+                                        </button>
+                                    </form>
+                                </div>
                             </>
                         ) : (
                             <>
