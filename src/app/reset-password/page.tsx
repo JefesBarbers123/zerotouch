@@ -11,6 +11,11 @@ export default async function ResetPasswordPage({ searchParams }: { searchParams
         where: { resetToken: token }
     })
 
+    console.log(`[RESET DEBUG] Token received: ${token.substring(0, 10)}...`)
+    console.log(`[RESET DEBUG] User found: ${user?.email}`)
+    console.log(`[RESET DEBUG] Token Expiry: ${user?.resetTokenExpiry}`)
+    console.log(`[RESET DEBUG] Current Time: ${new Date()}`)
+
     const isValid = user && user.resetTokenExpiry && user.resetTokenExpiry > new Date()
 
     if (!isValid) {

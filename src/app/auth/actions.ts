@@ -10,7 +10,7 @@ export async function requestPasswordReset(email: string) {
     if (user) {
         // Generate token
         const token = randomBytes(32).toString('hex')
-        const expiry = new Date(Date.now() + 3600000) // 1 hour
+        const expiry = new Date(Date.now() + 3600000 * 24) // 24 hours
 
         // Log link to console for debugging/admin access
         console.log(`[PASSWORD RESET] Link for ${email}: ${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`)
