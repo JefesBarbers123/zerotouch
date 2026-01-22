@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { logout } from '@/app/login/actions'
 
 export default function MobileNav({ user }: { user: any }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -96,11 +97,7 @@ export default function MobileNav({ user }: { user: any }) {
                                 )}
 
                                 <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
-                                    <form action={async () => {
-                                        'use server'
-                                        const { logout } = await import('../app/login/actions')
-                                        await logout()
-                                    }}>
+                                    <form action={logout}>
                                         <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-black uppercase tracking-wider border-2 border-red-500 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg shadow-red-500/20">
                                             Sign Out
                                         </button>
