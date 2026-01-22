@@ -14,7 +14,7 @@ export default function MobileNav({ user }: { user: any }) {
     return (
         <>
             {/* MOBILE HEADER BAR */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-[60] bg-blue-900 border-b-2 border-amber-400 flex justify-between items-center p-4 text-white shadow-md">
+            <div className="lg:hidden sticky top-0 w-full z-[60] bg-blue-900 border-b-2 border-amber-400 flex justify-between items-center p-4 text-white shadow-md">
                 <Link href="/" className="font-black uppercase tracking-tighter text-lg">
                     Zerotouches
                 </Link>

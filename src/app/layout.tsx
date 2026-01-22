@@ -21,7 +21,6 @@ export default async function RootLayout({
     <html lang="en">
       <body className="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
         <div className="flex min-h-screen">
-          <MobileNav user={user} />
           {user && (
             <>
               <aside className="w-72 border-r-2 border-amber-400 bg-blue-900/50 flex flex-col sticky top-0 h-screen z-50 overflow-y-auto hidden lg:flex flex-shrink-0">
@@ -127,7 +126,8 @@ export default async function RootLayout({
 
           {/* MAIN CONTENT WRAPPER */}
           {/* Flex layout handles spacing strictly now - no magic margins */}
-          <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full pt-16 lg:pt-0">
+          <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full">
+            <MobileNav user={user} />
             <IncomingCallToast />
             {children}
           </main>
