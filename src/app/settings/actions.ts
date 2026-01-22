@@ -123,14 +123,23 @@ export async function updateTenantProfile(formData: FormData) {
     const name = formData.get('name') as string
     const phone = formData.get('phone') as string
     const address = formData.get('address') as string
-    const churnThresholdDays = parseInt(formData.get('churnThresholdDays') as string)
+    const churnThresholdDaysStr = formData.get('churnThresholdDays') as string
+    let churnThresholdDays = parseInt(churnThresholdDaysStr)
+    if (isNaN(churnThresholdDays)) churnThresholdDays = 28 // Safe fallback
+
     const retentionSmsEnabled = formData.get('retentionSmsEnabled') === 'on'
 
-    await prisma.tenant.update({
-        where: { id: user.tenantId },
-        data: { name, phone, address, churnThresholdDays, retentionSmsEnabled }
-    })
-    revalidatePath('/settings')
+    try {
+        await prisma.tenant.update({
+            where: { id: user.tenantId },
+            data: { name, phone, address, churnThresholdDays, retentionSmsEnabled }
+        })
+        revalidatePath('/settings')
+        revalidatePath('/', 'layout') // Ensure header/nav updates
+    } catch (e) {
+        console.error("Failed to update tenant profile:", e)
+        throw new Error("Failed to update profile")
+    }
 }
 
 export async function getTeamMembers() {
@@ -199,4 +208,5 @@ export async function updateUserProfile(formData: FormData) {
     })
 
     revalidatePath('/settings')
+    revalidatePath('/', 'layout')
 }
