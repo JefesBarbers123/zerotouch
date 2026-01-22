@@ -14,7 +14,10 @@ export const metadata = {
   },
 }
 
-children: React.ReactNode
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
 }) {
   let user = null
   try {
