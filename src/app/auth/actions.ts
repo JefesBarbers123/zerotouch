@@ -12,6 +12,9 @@ export async function requestPasswordReset(email: string) {
         const token = randomBytes(32).toString('hex')
         const expiry = new Date(Date.now() + 3600000) // 1 hour
 
+        // Log link to console for debugging/admin access
+        console.log(`[PASSWORD RESET] Link for ${email}: ${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`)
+
         await prisma.user.update({
             where: { id: user.id },
             data: {
