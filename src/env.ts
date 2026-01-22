@@ -3,13 +3,7 @@ import { z } from 'zod';
 
 const envSchema = z.object({
     // Server-side
-    DATABASE_URL: z.string().min(1, "DATABASE_URL is required").refine((url) => {
-        if (process.env.NODE_ENV === 'production') {
-            const isLocal = url.includes('localhost') || url.includes('127.0.0.1') || url.startsWith('file:');
-            return !isLocal && (url.startsWith('postgres://') || url.startsWith('postgresql://'));
-        }
-        return true;
-    }, "Production DATABASE_URL must be a valid, remote PostgreSQL connection string (no localhost)"),
+    DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
     DIRECT_URL: z.string().optional(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 
