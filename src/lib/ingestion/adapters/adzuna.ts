@@ -52,7 +52,19 @@ export class AdzunaAdapter implements SourceAdapter {
     }
 
     validate(rawJob: RawJob): boolean {
-        return !!(rawJob.title && rawJob.url);
+        if (!rawJob.title || !rawJob.url) return false;
+
+        // Strict filtering: Title must contain barber-related terms
+        const title = rawJob.title.toLowerCase();
+        const keywords = ['barber', 'hair', 'stylist', 'mens', 'grooming', 'salon', 'fade', 'shave'];
+        const isRelevant = keywords.some(k => title.includes(k));
+
+        if (!isRelevant) {
+            // console.log(`Skipping irrelevant job: ${rawJob.title}`);
+            return false;
+        }
+
+        return true;
     }
 
     normalize(rawJob: RawJob): Partial<Job> {

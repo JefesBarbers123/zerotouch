@@ -40,7 +40,7 @@ export function ApplyButton({ jobId, sourceUrl }: { jobId: string, sourceUrl: st
             disabled={isLoading}
             className="block w-full bg-amber-400 hover:bg-white text-blue-950 font-black uppercase tracking-widest text-center py-4 border-2 border-amber-400 hover:border-white transition-all transform hover:-translate-y-1 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-            {isLoading ? 'Processing...' : 'Apply Now &nearr;'}
+            {isLoading ? 'Processing...' : 'Apply Now ↗'}
         </button>
     )
 }
