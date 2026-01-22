@@ -14,12 +14,14 @@ export const metadata = {
   },
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
+children: React.ReactNode
 }) {
-  const user = await getCurrentUser()
+  let user = null
+  try {
+    user = await getCurrentUser()
+  } catch (error) {
+    console.warn("Layout: Failed to fetch user (possibly build time or db error)", error)
+  }
 
   return (
     <html lang="en">
