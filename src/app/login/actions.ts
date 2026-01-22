@@ -35,3 +35,9 @@ export async function logout() {
     cookies().delete('userId')
     redirect('/login')
 }
+
+export async function loginWithGoogle() {
+    const { getGoogleAuthUrl } = await import('@/lib/google')
+    const url = getGoogleAuthUrl()
+    redirect(url)
+}
