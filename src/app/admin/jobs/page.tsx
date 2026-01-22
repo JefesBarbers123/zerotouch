@@ -34,7 +34,12 @@ export default async function JobsModerationPage({
         <div className="p-8 text-white min-h-screen bg-neutral-900">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">Job Moderation</h1>
-                <div className="text-neutral-400">Total: {total}</div>
+                <div className="flex items-center gap-4">
+                    <div className="text-neutral-400">Total: {total}</div>
+                    <Link href="/admin/jobs/new" className="bg-amber-400 text-blue-950 font-black uppercase tracking-widest text-xs px-4 py-2 hover:bg-white transition-colors rounded">
+                        + Post New Job
+                    </Link>
+                </div>
             </div>
 
             <form className="mb-8 flex gap-4">
