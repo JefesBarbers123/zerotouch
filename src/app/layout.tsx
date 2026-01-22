@@ -21,9 +21,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
         <div className="flex min-h-screen">
+          <MobileNav user={user} />
           {user && (
             <>
-              <MobileNav user={user} />
               <aside className="w-72 border-r-2 border-amber-400 bg-blue-900/50 flex flex-col sticky top-0 h-screen z-50 overflow-y-auto hidden lg:flex flex-shrink-0">
                 {/* BRAND HEADER */}
                 <div className="p-8 border-b-2 border-amber-400">
@@ -127,11 +127,7 @@ export default async function RootLayout({
 
           {/* MAIN CONTENT WRAPPER */}
           {/* Flex layout handles spacing strictly now - no magic margins */}
-          <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full">
-            <div className="lg:hidden p-4 border-b-2 border-amber-400 flex justify-between items-center bg-blue-900 sticky top-0 z-40 text-white">
-              <span className="font-black uppercase tracking-tighter">Zerotouches</span>
-              <span className="text-xs font-mono bg-amber-400 text-blue-950 px-2 py-1 font-bold">MENU</span>
-            </div>
+          <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full pt-16 lg:pt-0">
             <IncomingCallToast />
             {children}
           </main>
