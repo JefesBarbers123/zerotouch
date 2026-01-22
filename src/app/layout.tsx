@@ -5,10 +5,11 @@ import './globals.css'
 import IncomingCallToast from '@/components/IncomingCallToast'
 import MobileNav from '@/components/MobileNav'
 
-title: 'Zerotouches (SaaS)',
+export const metadata = {
+  title: 'Zerotouches (SaaS)',
   description: 'Barber Retention System',
-    icons: {
-  icon: '/icon.png',
+  icons: {
+    icon: '/icon.png',
     apple: '/apple-icon.png',
   },
 }
