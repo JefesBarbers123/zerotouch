@@ -10,7 +10,15 @@ async function main() {
         });
 
         if (existing) {
-            console.log('Adzuna source already exists:', existing.name);
+            console.log('Adzuna source already exists. Updating URL...');
+            await prisma.jobSource.update({
+                where: { id: existing.id },
+                data: {
+                    url: 'https://api.adzuna.com/v1/api/jobs/gb/search/1?what=barber&results_per_page=50',
+                    isActive: true
+                }
+            });
+            console.log('Updated Adzuna source URL.');
             return;
         }
 
@@ -19,7 +27,7 @@ async function main() {
             data: {
                 name: 'Adzuna API',
                 type: 'ADZUNA',
-                url: 'https://api.adzuna.com/v1/api/jobs', // Base URL, though adapter handles it
+                url: 'https://api.adzuna.com/v1/api/jobs/gb/search/1?what=barber&results_per_page=50',
                 isActive: true,
             }
         });

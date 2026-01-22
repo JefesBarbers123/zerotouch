@@ -21,8 +21,13 @@ export default async function JobsPage({
     const jobs = await prisma.job.findMany({
         where: {
             isPublished: true,
-            expiryDate: { gt: new Date() }, // Only active jobs
             AND: [
+                {
+                    OR: [
+                        { expiryDate: { gt: new Date() } },
+                        { expiryDate: null }
+                    ]
+                },
                 query ? {
                     OR: [
                         { title: { contains: query } },

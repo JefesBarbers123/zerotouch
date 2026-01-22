@@ -1,27 +1,26 @@
 --- Job Sources ---
-[cmkmvj9hz0000j67fymox4kom] we work (RSS) - Active: true | Last Status: SUCCESS | Error: null
-[cmkmxk72o0000uvtyubiarwda] Adzuna Barber jobs (RSS) - Active: true | Last Status: SUCCESS | Error: null
-[cmkntfcm6000086b3wto7yopa] Adzuna API (ADZUNA) - Active: true | Last Status: SUCCESS | Error: null
+[cmkpq1jyr00008r8mgdg8139d] Indeed UK (RSS) (RSS) - Active: true | Last Status: SUCCESS | Error: null
+[cmkpq4f8j00003gseozxelr7d] Adzuna UK (ADZUNA) - Active: true | Last Status: SUCCESS | Error: null
 
 --- Jobs (Last 20) ---
-Total Jobs: 31
-- [we work] Icarus Digital Marketing: Digital Agency Account Manager @ Unknown (ID: cmkmvsjyq0001ze6didy8yfvd)
-- [we work] isolutions: Dynamics 365 CRM Developer @ Unknown (ID: cmkmvsjz40003ze6dbgj6a6jx)
-- [we work] Stitch Fix: Principal Engineer, CRM & MarTech @ Unknown (ID: cmkmvsjzh0005ze6dlej5brdt)
-- [we work] Huble: CRM Solutions Architect (USA) @ Unknown (ID: cmkmvsk080007ze6dxb6lonod)
-- [we work] Abbott: Clinical Specialist, CRM - Houston TX @ Unknown (ID: cmkmvsk160009ze6d5dxigkv0)
-- [we work] Genesys: Product Management Director, CRM & Strategic Platform Integrations @ Unknown (ID: cmkmvsk26000bze6d33woslpq)
-- [we work] Medier: CRM Localization Specialist (German language) @ Unknown (ID: cmkmvsk2v000dze6dkq0yf31d)
-- [we work] Bask Health: Customer Success Account Manager @ Unknown (ID: cmkmvsk3j000fze6ds9w0e3v0)
-- [we work] Watson Institute: Search Lead, Denver (Contractor Role) @ Unknown (ID: cmkmvsk4e000hze6dsxb5byq0)
-- [we work] HubSpot: Manager, Solutions Engineering @ Unknown (ID: cmkmvsk4l000jze6d08rzzffp)
-- [we work] Aristocrat Technologies: CRM & Loyalty Manager @ Unknown (ID: cmkmvsk4t000lze6dj66zjxql)
-- [we work] Roofr: Senior Frontend Engineer - Contract @ Unknown (ID: cmkmvsk70000nze6d9845l9rc)
-- [we work] Weir: Global CRM Lead @ Unknown (ID: cmkmvsk7c000pze6d88mlun31)
-- [we work] Practicum bootcamp: Email Marketing & CRM Specialist @ Unknown (ID: cmkmvsk7l000rze6dhf4lnazi)
-- [we work] RN Pad: Customer Onboarding/Success @ Unknown (ID: cmkmvskce000tze6d4jx3w12b)
-- [we work] Order Desk: Technical Support Specialist @ Unknown (ID: cmkmvskd2000vze6d690f9i9m)
-- [we work] hey contact heroes GmbH: EU-Freelancer Kundenberater/in (m/w/d) - Inbound Mobilfunk/Prepaid - 100% Remote @ Unknown (ID: cmkmvskes000xze6dvhf47hmx)
-- [we work] Remote Talent Cloud: Remote Customer Support - $20/hr - United States @ Unknown (ID: cmkmvskg1000zze6dv3p1gr6v)
-- [we work] Amazowl: Amazon Seller Central Expert (Flat Files) @ Unknown (ID: cmkmvskhe0011ze6dh7tfxvlu)
-- [we work] Sana Search International: Japanese language proficiency-CRM Tools--WFH @ Unknown (ID: cmkmvskie0013ze6dnz5s2krs)
+Total Jobs: 46
+- [Adzuna UK] Sous Chef @ Searcys (ID: cmkpva0a30001t27wabljuh7o)
+- [Adzuna UK] Technical Coach in Hairdressing (Barber) @ HULL COLLEGE GROUP (ID: cmkpq80jr0007znwm4q30c5xt)
+- [Adzuna UK] Lecturer Hair & Barbering @ Herts Resourcing Group Ltd (ID: cmkpq809h0003znwmhxrbpfxn)
+- [Adzuna UK] Mechanical Maintenance Engineer @ CBW Staffing Solutions Ltd (ID: cmkpq81rs0011znwmmxx7bpts)
+- [Adzuna UK] Junior/Semi Senior Accountant @ Barber Mclelland Ltd (ID: cmkpq81p3000zznwm30wttphz)
+- [Adzuna UK] Specialist Support Tutor - Foundation Learning @ Basingstoke College of Technology (ID: cmkpq83il0023znwmy5v4tosc)
+- [Adzuna UK] Sessional Creative Industries Lecturer @ Basingstoke College of Technology (ID: cmkpq83zl002dznwm1mv2zqhr)
+- [Adzuna UK] Interventions Worker @ Basingstoke College of Technology (ID: cmkpq83lf0025znwm6txr8fip)
+- [Adzuna UK] Sessional English Lecturer @ Basingstoke College of Technology (ID: cmkpq83w1002bznwm6mfsmq2a)
+- [Adzuna UK] Graduate Recruitment Consultant @ Virtus Talent (ID: cmkpq81u80013znwmhqx11wlq)
+- [Adzuna UK] Recruitment Consultant @ Tiger Resourcing Group (ID: cmkpq82jq001lznwm4afv2ygp)
+- [Adzuna UK] Interventions Worker @ Basingstoke College of Technology (ID: cmkpq83r20029znwmxbbunerl)
+- [Adzuna UK] Specialist Support Tutor - Foundation Learning @ Basingstoke College of Technology (ID: cmkpq83oo0027znwm3ct99mvj)
+- [Adzuna UK] Lecturer - Hairdressing & Barbering @ Wirral Metropolitan College (ID: cmkpq80fc0005znwmb7165awe)
+- [Adzuna UK] Apartment Servicing Maintenance Engineer @ CBW Staffing Solutions (ID: cmkpq82yz001vznwmm7gqaw2l)
+- [Adzuna UK] Curator - Barber Institute of Fine Art - 106868 - Grade 6 @ The University of Birmingham (ID: cmkpq81bu000pznwmobmgchx9)
+- [Adzuna UK] Freelance Designers @ Map Project Office (ID: cmkpq842m002fznwm680l8l76)
+- [Adzuna UK] Electrical/Mechanical Maintenance Engineer @ CBW Staffing Solutions Ltd (ID: cmkpq821t0019znwme6iia0h1)
+- [Adzuna UK] Mechanical Maintenance Engineer @ CBW Staffing Solutions (ID: cmkpq82p5001pznwm7zn5bfis)
+- [Adzuna UK] Qualified Accountant - Client Manager @ Barber Mclelland Ltd (ID: cmkpq819o000nznwm3d8h2wr3)
