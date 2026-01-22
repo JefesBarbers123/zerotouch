@@ -74,6 +74,7 @@ model User {
   tenant        Tenant         @relation(fields: [tenantId], references: [id])
   visits        Visit[]
   supportTickets SupportTicket[]
+  applications  JobApplication[]
 }
 
 model Client {
@@ -284,6 +285,7 @@ model Job {
   country         String?
   city            String?
   remote          Boolean     @default(false)
+  contactEmail    String?
   
   salaryMin       Float?
   salaryMax       Float?
@@ -307,6 +309,7 @@ model Job {
   updatedAt       DateTime    @updatedAt
 
   reports         JobReport[]
+  applications    JobApplication[]
 
   @@index([location])
   @@index([title])
@@ -319,6 +322,18 @@ model JobReport {
   reason    String
   createdAt DateTime @default(now())
   job       Job      @relation(fields: [jobId], references: [id])
+}
+
+model JobApplication {
+  id        String   @id @default(cuid())
+  userId    String
+  jobId     String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  job       Job      @relation(fields: [jobId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model SupportTicket {

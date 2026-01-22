@@ -47,3 +47,55 @@ export const verifyGoogleToken = async (idToken: string) => {
     });
     return ticket.getPayload();
 };
+
+export const getTokens = async (code: string) => {
+    const client = getGoogleOAuthClient()
+    const { tokens } = await client.getToken(code)
+    return tokens
+}
+
+export const listEvents = async (accessToken: string, refreshToken: string | null | undefined) => {
+    const client = getGoogleOAuthClient()
+    client.setCredentials({
+        access_token: accessToken,
+        refresh_token: refreshToken || undefined
+    })
+
+    const calendar = google.calendar({ version: 'v3', auth: client })
+    const response = await calendar.events.list({
+        calendarId: 'primary',
+        timeMin: new Date().toISOString(),
+        maxResults: 100,
+        singleEvents: true,
+        orderBy: 'startTime',
+    })
+
+    return response.data.items || []
+}
+
+export const getPeople = async (accessToken: string, refreshToken: string | null | undefined) => {
+    const client = getGoogleOAuthClient()
+    client.setCredentials({
+        access_token: accessToken,
+        refresh_token: refreshToken || undefined
+    })
+
+    const people = google.people({ version: 'v1', auth: client })
+    const response = await people.people.connections.list({
+        resourceName: 'people/me',
+        personFields: 'names,emailAddresses,phoneNumbers',
+        pageSize: 100
+    })
+
+    return response.data.connections || []
+}
+
+export const getUserInfo = async (accessToken: string) => {
+    const client = getGoogleOAuthClient()
+    client.setCredentials({ access_token: accessToken })
+
+    const oauth2 = google.oauth2({ version: 'v2', auth: client })
+    const { data } = await oauth2.userinfo.get()
+
+    return data
+}

@@ -1,8 +1,7 @@
-import { getGoogleOAuthClient } from '@/lib/google'
+import { NextRequest, NextResponse } from 'next/server'
+import { getTokens, getUserInfo } from '@/lib/google'
 import { prisma } from '@/lib/prisma'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
@@ -10,60 +9,44 @@ export async function GET(request: NextRequest) {
     const error = searchParams.get('error')
 
     if (error) {
-        return redirect('/login?error=Google+Auth+Failed')
+        return NextResponse.redirect(new URL('/login?error=Google+Sign-In+Failed', request.url))
     }
 
     if (!code) {
-        return redirect('/login?error=No+Code+Provided')
+        return NextResponse.redirect(new URL('/login?error=No+Code+Provided', request.url))
     }
 
     try {
-        const client = getGoogleOAuthClient()
-        const { tokens } = await client.getToken(code)
+        // Exchange code for tokens
+        const tokens = await getTokens(code)
 
-        // client.setCredentials(tokens); // Not strictly needed unless making API calls
-
-        const idToken = tokens.id_token
-        if (!idToken) {
-            throw new Error("No ID Token found")
+        if (!tokens.access_token) {
+            throw new Error("No access token received")
         }
 
-        const ticket = await client.verifyIdToken({
-            idToken,
-            audience: process.env.GOOGLE_CLIENT_ID
+        // Get user info
+        const googleUser = await getUserInfo(tokens.access_token)
+        const email = googleUser.email
+
+        if (!email) {
+            return NextResponse.redirect(new URL('/login?error=No+Email+Provided', request.url))
+        }
+
+        // Find user by email
+        const user = await prisma.user.findUnique({
+            where: { email }
         })
 
-        const payload = ticket.getPayload()
-        if (!payload || !payload.email) {
-            throw new Error("No Email in Google Token")
-        }
-
-        const email = payload.email
-        const name = payload.name || email.split('@')[0]
-        const picture = payload.picture
-
-        // Find or Create User
-        let user = await prisma.user.findUnique({ where: { email } })
-
         if (!user) {
-            // OPTION 1: Auto-SignUp (For now, let's allow it for seamless testing, or link to invite)
-            // If strict invite only: 
-            // return redirect('/login?error=Account+not+found.+Please+ask+for+an+invite.')
+            // New User Flow: Redirect to Register with pre-filled details
+            const params = new URLSearchParams()
+            params.set('email', email)
+            if (googleUser.name) params.set('name', googleUser.name)
 
-            // For now, let's fail if no user, as user asked for "login", not "signup" explicitly? 
-            // Actually usually "login with google" implies signup.
-            // But this app has tenant model. Creating a user without a tenant is invalid if schema requires it.
-            // Let's check schema. User usually belongs to Tenant.
-            // If new user, we don't know which tenant.
-            // So we can only log in EXISTING users.
-
-            return redirect(`/login?error=No+account+found+for+${email}.+Please+ask+admin+for+invite.`)
-        } else {
-            // Update avatar if missing? 
-            // await prisma.user.update(...) 
+            return NextResponse.redirect(new URL(`/register?${params.toString()}`, request.url))
         }
 
-        // Set Session Cookie (Simulating the 'login' action)
+        // Login successful - Set cookie
         cookies().set('userId', user.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -71,10 +54,10 @@ export async function GET(request: NextRequest) {
             path: '/'
         })
 
-        return redirect('/dashboard')
+        return NextResponse.redirect(new URL('/dashboard', request.url))
 
-    } catch (error) {
-        console.error("Google Callback Error:", error)
-        return redirect('/login?error=Authentication+Failed')
+    } catch (e: any) {
+        console.error("[Google Auth Error]", e)
+        return NextResponse.redirect(new URL('/login?error=Authentication+Error', request.url))
     }
 }

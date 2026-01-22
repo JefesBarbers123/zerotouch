@@ -101,7 +101,7 @@ export default function MobileNav({ user }: { user: any }) {
                                         const { logout } = await import('../app/login/actions')
                                         await logout()
                                     }}>
-                                        <button className="flex items-center w-full px-4 py-3 text-sm font-bold uppercase tracking-wider border-2 border-transparent hover:border-red-400 hover:bg-red-400 hover:text-white transition-all text-red-400/60">
+                                        <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-black uppercase tracking-wider border-2 border-red-500 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg shadow-red-500/20">
                                             Sign Out
                                         </button>
                                     </form>
@@ -115,8 +115,22 @@ export default function MobileNav({ user }: { user: any }) {
                                         Login / Join
                                     </Link>
                                 </div>
-                                <NavLink href="/">Job Board</NavLink>
-                                <NavLink href="/login">Barber Login</NavLink>
+                                <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">Operations</p>
+                                <div className="opacity-70">
+                                    <NavLink href="/login">Dashboard 🔒</NavLink>
+                                    <NavLink href="/login">Clients 🔒</NavLink>
+                                    <NavLink href="/login">Check In 🔒</NavLink>
+                                </div>
+
+                                <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
+                                    <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">System</p>
+                                    <NavLink href="/">Job Board</NavLink>
+                                    <NavLink href="/login">Barber Login</NavLink>
+                                    <div className="mt-4 opacity-70">
+                                        <NavLink href="/login">Concierge Phone 🔒</NavLink>
+                                        <NavLink href="/login">AI Console 🔒</NavLink>
+                                    </div>
+                                </div>
                             </>
                         )}
                     </nav>

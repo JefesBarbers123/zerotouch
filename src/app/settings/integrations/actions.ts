@@ -2,12 +2,12 @@
 
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
-import { getAuthUrl, getTokens, listEvents, getPeople } from '@/lib/google'
+import { getGoogleAuthUrl, getTokens, listEvents, getPeople } from '@/lib/google'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function connectGoogle(_formData?: FormData) {
-    const url = getAuthUrl()
+    const url = getGoogleAuthUrl()
     redirect(url)
 }
 

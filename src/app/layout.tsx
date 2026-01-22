@@ -21,21 +21,21 @@ export default async function RootLayout({
     <html lang="en">
       <body className="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
         <div className="flex min-h-screen">
-          {user && (
-            <>
-              <aside className="w-72 border-r-2 border-amber-400 bg-blue-900/50 flex flex-col sticky top-0 h-screen z-50 overflow-y-auto hidden lg:flex flex-shrink-0">
-                {/* BRAND HEADER */}
-                <div className="p-8 border-b-2 border-amber-400">
-                  <h1 className="text-3xl font-black uppercase tracking-tighter leading-none text-white">
-                    Zerotouches.
-                  </h1>
-                  <p className="font-mono text-[10px] text-amber-400 uppercase tracking-widest mt-2">
-                    System Online
-                  </p>
-                </div>
+          <aside className="w-72 border-r-2 border-amber-400 bg-blue-900/50 flex flex-col sticky top-0 h-screen z-50 overflow-y-auto hidden lg:flex flex-shrink-0">
+            {/* BRAND HEADER */}
+            <div className="p-8 border-b-2 border-amber-400">
+              <h1 className="text-3xl font-black uppercase tracking-tighter leading-none text-white">
+                Zerotouches.
+              </h1>
+              <p className="font-mono text-[10px] text-amber-400 uppercase tracking-widest mt-2">
+                System Online
+              </p>
+            </div>
 
-                {/* NAVIGATION */}
-                <nav className="flex-1 p-6 space-y-2">
+            {/* NAVIGATION */}
+            <nav className="flex-1 p-6 space-y-2">
+              {user ? (
+                <>
                   <div className="mb-6 bg-blue-950/50 p-3 rounded border border-amber-400/20 text-center">
                     <p className="text-[10px] font-mono text-amber-400/60 uppercase mb-1">Operating Credits</p>
                     <p className="text-xl font-black text-white tracking-tighter">
@@ -98,32 +98,60 @@ export default async function RootLayout({
                       <NavLink href="/admin/jobs">Job Moderation</NavLink>
                     </div>
                   )}
-                </nav>
+                </>
+              ) : (
+                <>
+                  <div className="mb-6 p-4 rounded border border-amber-400/20 text-center bg-blue-900/50">
+                    <p className="text-sm font-bold text-white mb-2">Barber Retention System</p>
+                    <Link href="/login" className="block w-full bg-amber-400 text-blue-950 font-bold py-2 uppercase tracking-wide text-xs rounded hover:bg-white transition-colors">
+                      Login / Join
+                    </Link>
+                  </div>
 
-                {/* USER FOOTER */}
-                <div className="p-6 border-t-2 border-amber-400 bg-blue-950">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-amber-400 text-blue-950 flex items-center justify-center font-bold tracking-tighter">
-                      {user.name?.[0] || 'U'}
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-white">{user.name}</p>
-                      <form action={async () => {
-                        'use server'
-                        const { logout } = await import('./login/actions')
-                        await logout()
-                      }}>
-                        <button className="mt-1 w-full text-left px-3 py-2 border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-2">
-                          <span>Sign Out</span>
-                          <span className="text-sm">→</span>
-                        </button>
-                      </form>
+                  <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">Operations</p>
+                  <div className="opacity-70 hover:opacity-100 transition-opacity">
+                    <NavLink href="/login">Dashboard 🔒</NavLink>
+                    <NavLink href="/login">Clients 🔒</NavLink>
+                    <NavLink href="/login">Check In 🔒</NavLink>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
+                    <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">System</p>
+                    <NavLink href="/">Job Board</NavLink>
+                    <NavLink href="/login">Barber Login</NavLink>
+                    <div className="mt-4 opacity-70 hover:opacity-100 transition-opacity">
+                      <NavLink href="/login">Concierge Phone 🔒</NavLink>
+                      <NavLink href="/login">AI Console 🔒</NavLink>
                     </div>
                   </div>
+                </>
+              )}
+            </nav>
+
+            {/* USER FOOTER */}
+            {user && (
+              <div className="p-6 border-t-2 border-amber-400 bg-blue-950">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-amber-400 text-blue-950 flex items-center justify-center font-bold tracking-tighter">
+                    {user.name?.[0] || 'U'}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-white">{user.name}</p>
+                    <form action={async () => {
+                      'use server'
+                      const { logout } = await import('./login/actions')
+                      await logout()
+                    }}>
+                      <button className="mt-1 w-full text-left px-3 py-2 border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-2">
+                        <span>Sign Out</span>
+                        <span className="text-sm">→</span>
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </aside>
-            </>
-          )}
+              </div>
+            )}
+          </aside>
 
           {/* MAIN CONTENT WRAPPER */}
           {/* Flex layout handles spacing strictly now - no magic margins */}

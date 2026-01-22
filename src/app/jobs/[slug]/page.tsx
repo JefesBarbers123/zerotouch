@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ReportButton } from './report-button';
+import { ApplyButton } from './apply-button';
 
 interface Props {
     params: { slug: string };
@@ -125,14 +126,7 @@ export default async function JobPage({ params }: Props) {
                                 </li>
                             </ul>
 
-                            <a
-                                href={job.sourceUrl}
-                                target="_blank"
-                                rel="noopener noreferrer nofollow"
-                                className="block w-full bg-amber-400 hover:bg-white text-blue-950 font-black uppercase tracking-widest text-center py-4 border-2 border-amber-400 hover:border-white transition-all transform hover:-translate-y-1 hover:shadow-lg"
-                            >
-                                Apply on {job.source?.name || 'External Site'} &nearr;
-                            </a>
+                            <ApplyButton jobId={job.id} sourceUrl={job.sourceUrl} />
                             <p className="font-mono text-[10px] text-blue-400 mt-4 text-center uppercase tracking-widest">
                                 Source: {job.source?.name || 'Unknown'}
                             </p>
