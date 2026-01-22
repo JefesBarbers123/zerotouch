@@ -142,12 +142,82 @@ export async function updateTenantProfile(formData: FormData) {
     }
 }
 
+
+// Helper
+async function generateReferralCode(name: string) {
+    // Basic code: JOE123
+    const base = name.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'X')
+    const random = Math.floor(100 + Math.random() * 900)
+    return `${base}${random}`
+}
+
+export async function updateAccountType(formData: FormData) {
+    const user = await getCurrentUser()
+    if (!user || user.role !== 'OWNER') throw new Error("Unauthorized")
+
+    const accountType = formData.get('accountType') as string // BUSINESS or PERSONAL
+
+    await prisma.tenant.update({
+        where: { id: user.tenantId },
+        data: { accountType }
+    })
+    revalidatePath('/settings')
+}
+
+export async function getReferralPayload() {
+    // Generate code if missing
+    const user = await getCurrentUser()
+    if (!user) return null
+
+    if (!user.referralCode) {
+        // Create one on the fly
+        const code = await generateReferralCode(user.name || 'USER')
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { referralCode: code }
+        })
+        user.referralCode = code
+    }
+
+    return {
+        code: user.referralCode,
+        link: `${process.env.NEXT_PUBLIC_APP_URL}/register?ref=${user.referralCode}`
+    }
+}
+
 export async function getTeamMembers() {
     const user = await getCurrentUser()
     if (!user) return []
-    return await prisma.user.findMany({
+
+    const members = await prisma.user.findMany({
         where: { tenantId: user.tenantId },
-        orderBy: { name: 'asc' }
+        orderBy: { name: 'asc' },
+        include: {
+            visits: {
+                where: {
+                    date: {
+                        gte: new Date(new Date().setDate(1)) // This month
+                    }
+                },
+                include: { service: true }
+            }
+        }
+    })
+
+    // Calculate Stats
+    return members.map(m => {
+        const appointmentCount = m.visits.length
+        const revenue = m.visits.reduce((sum, v) => sum + (v.service?.price.toNumber() || 0), 0)
+
+        // Remove visits array for lighter payload
+        const { visits, ...cleanMember } = m
+        return {
+            ...cleanMember,
+            stats: {
+                appointmentCount,
+                revenue
+            }
+        }
     })
 }
 

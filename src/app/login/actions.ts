@@ -17,18 +17,31 @@ export async function login(userId: string) {
     redirect('/dashboard')
 }
 
-export async function loginByEmail(email: string) {
+export async function loginByEmail(email: string, password?: string) {
     const user = await prisma.user.findUnique({ where: { email } })
-    if (user) {
-        await login(user.id)
-    } else {
-        // For security, don't reveal if user exists, but here we just redirect back
-        // Ideally show error. For now, redirect to register or show error.
-        // Since we can't easily pass state back without useFormState (which requires client component),
-        // we'll just redirect to login with a query param? or throw.
-        // Let's redirect with error param.
+
+    if (!user) {
         redirect('/login?error=Invalid+credentials')
     }
+
+    // If user has a password set, verify it
+    if (user.passwordHash && password) {
+        const { compare } = await import('bcryptjs')
+        const isValid = await compare(password, user.passwordHash)
+        if (!isValid) {
+            redirect('/login?error=Invalid+credentials')
+        }
+    } else if (user.passwordHash && !password) {
+        // Password required but not provided
+        redirect('/login?error=Password+required')
+    } else if (!user.passwordHash) {
+        // Legacy user (no password) -> ALLOW for now, but ideally force reset
+        // Or we can block and say "Please reset password"
+        // Let's block and guide to reset
+        redirect('/forgot-password?email=' + encodeURIComponent(email))
+    }
+
+    await login(user.id)
 }
 
 export async function logout() {

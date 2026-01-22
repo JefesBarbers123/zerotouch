@@ -30,7 +30,7 @@ export default function MobileNav({ user }: { user: any }) {
 
             {/* FULL SCREEN MENU OVERLAY */}
             {isOpen && (
-                <div className="fixed inset-0 z-[55] bg-blue-950/95 backdrop-blur-xl flex flex-col p-8 pt-24 overflow-y-auto animate-in fade-in duration-200">
+                <div className="fixed inset-0 z-[55] bg-blue-950/95 backdrop-blur-xl flex flex-col p-8 pt-24 pb-32 overflow-y-auto animate-in fade-in duration-200">
                     <div className="mb-8 border-b-2 border-amber-400 pb-4">
                         <Link href="/" className="text-3xl font-black uppercase tracking-tighter leading-none text-white block">
                             Zerotouches.

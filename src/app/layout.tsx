@@ -5,9 +5,12 @@ import './globals.css'
 import IncomingCallToast from '@/components/IncomingCallToast'
 import MobileNav from '@/components/MobileNav'
 
-export const metadata = {
-  title: 'Zerotouches (SaaS)',
+title: 'Zerotouches (SaaS)',
   description: 'Barber Retention System',
+    icons: {
+  icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
 }
 
 export default async function RootLayout({

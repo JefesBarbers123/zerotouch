@@ -9,7 +9,11 @@ export async function registerShop(formData: FormData) {
     const email = formData.get('email') as string
     const phone = formData.get('phone') as string
 
-    if (!shopName || !ownerName || !email) {
+    const accountType = (formData.get('accountType') as string) || 'BUSINESS'
+
+    const password = formData.get('password') as string
+
+    if (!shopName || !ownerName || !email || !password) {
         throw new Error("Missing required fields")
     }
 
@@ -23,6 +27,10 @@ export async function registerShop(formData: FormData) {
         throw new Error("Email already registered")
     }
 
+    // Hash password
+    const { hash } = await import('bcryptjs')
+    const passwordHash = await hash(password, 10)
+
     // 2. Create Tenant & Owner
     // We use a transaction to ensure both are created or neither
     await prisma.$transaction(async (tx) => {
@@ -30,6 +38,7 @@ export async function registerShop(formData: FormData) {
             data: {
                 name: shopName,
                 phone: phone,
+                accountType: accountType,
                 // Defaults: subscription=FREE, wallet=0
             }
         })
@@ -39,7 +48,8 @@ export async function registerShop(formData: FormData) {
                 name: ownerName,
                 email: email,
                 role: email === 'askthejefe@gmail.com' ? 'SUPER_ADMIN' : 'OWNER',
-                tenantId: tenant.id
+                tenantId: tenant.id,
+                passwordHash: passwordHash
             }
         })
     })

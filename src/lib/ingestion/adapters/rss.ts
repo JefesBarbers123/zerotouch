@@ -38,15 +38,29 @@ export class RSSAdapter implements SourceAdapter {
     }
 
     normalize(rawJob: RawJob): Partial<Job> {
-        // Basic normalization
+        // Google Alerts specific cleaning
+        let url = rawJob.url;
+        if (url && url.includes('google.com/url')) {
+            const match = url.match(/[?&]url=([^&]+)/);
+            if (match) {
+                try {
+                    url = decodeURIComponent(match[1]);
+                } catch (e) {
+                    // Start URL as is failure
+                }
+            }
+        }
+
+        const cleanTitle = rawJob.title.replace(/<\/?[^>]+(>|$)/g, "").trim();
+
         return {
-            title: rawJob.title.trim(),
+            title: cleanTitle,
             company: rawJob.company.trim(),
-            description: rawJob.description, // Might need HTML cleaning later
+            description: rawJob.description,
             location: rawJob.location,
-            sourceUrl: rawJob.url,
+            sourceUrl: url,
             postedDate: new Date(rawJob.postedDate),
-            remote: rawJob.title.toLowerCase().includes('remote') || rawJob.location.toLowerCase().includes('remote'),
+            remote: cleanTitle.toLowerCase().includes('remote') || (rawJob.location || '').toLowerCase().includes('remote'),
         };
     }
 }

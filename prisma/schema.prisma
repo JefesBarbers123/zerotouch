@@ -25,6 +25,7 @@ model Tenant {
   smsAutoReplyEnabled Boolean             @default(true)
   smsAutoReplyMessage String?             @default("Sorry, I missed your call. Whats up? Ill call you back in a second")
   retentionSmsEnabled Boolean             @default(false)
+  accountType         String              @default("PERSONAL") // "PERSONAL" or "BUSINESS"
   automations         Automation[]
   callLogs            CallLog[]
   clients             Client[]
@@ -67,6 +68,11 @@ model User {
   role          String
   emailNotificationsEnabled Boolean @default(true)
   tenantId      String
+  referralCode  String?        @unique
+  referredBy    String?
+  passwordHash  String?
+  resetToken    String?        @unique
+  resetTokenExpiry DateTime?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   barberProfile BarberProfile?

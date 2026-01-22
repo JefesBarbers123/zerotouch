@@ -40,8 +40,9 @@ export default async function LoginPage() {
                     <form action={async (formData) => {
                         'use server'
                         const email = formData.get('email') as string
+                        const password = formData.get('password') as string
                         const { loginByEmail } = await import('./actions')
-                        await loginByEmail(email)
+                        await loginByEmail(email, password)
                     }} className="space-y-4">
                         <div>
                             <label className="block text-[10px] font-bold uppercase text-amber-400 mb-2 tracking-widest">Email Address</label>
@@ -52,6 +53,21 @@ export default async function LoginPage() {
                                 required
                                 className="w-full bg-blue-950 border-2 border-amber-400/30 p-3 text-white placeholder:text-white/20 focus:border-amber-400 outline-none font-mono text-sm"
                             />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase text-amber-400 mb-2 tracking-widest">Password</label>
+                            <input
+                                name="password"
+                                type="password"
+                                placeholder="••••••••"
+                                required
+                                className="w-full bg-blue-950 border-2 border-amber-400/30 p-3 text-white placeholder:text-white/20 focus:border-amber-400 outline-none font-mono text-sm"
+                            />
+                            <div className="text-right mt-2">
+                                <a href="/forgot-password" className="text-xs font-bold text-amber-400 hover:text-white uppercase tracking-wider border-b border-amber-400/30 hover:border-white pb-0.5 transition-all">
+                                    Forgot Password?
+                                </a>
+                            </div>
                         </div>
                         <button className="w-full px-6 py-3 bg-amber-400 text-blue-950 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors text-sm">
                             Access System
