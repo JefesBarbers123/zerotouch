@@ -41,7 +41,12 @@ export default async function ClientsPage() {
                             Manage your book
                         </p>
                     </div>
-                    <ClientList initialClients={[]} onSearch={async () => []} />
+                    {/* Dummy content for visual background */}
+                    <div className="space-y-4">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-20 bg-blue-900/50 border border-white/5 rounded-none" />
+                        ))}
+                    </div>
                 </div>
             </main>
         )
