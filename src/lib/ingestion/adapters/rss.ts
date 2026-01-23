@@ -40,6 +40,8 @@ export class RSSAdapter implements SourceAdapter {
     normalize(rawJob: RawJob): Partial<Job> {
         // Google Alerts specific cleaning
         let url = rawJob.url;
+
+        // Loop to handle nested redirects if necessary, but usually one pass is enough for Google Alerts
         if (url && url.includes('google.com/url')) {
             const match = url.match(/[?&]url=([^&]+)/);
             if (match) {
@@ -51,12 +53,23 @@ export class RSSAdapter implements SourceAdapter {
             }
         }
 
-        const cleanTitle = rawJob.title.replace(/<\/?[^>]+(>|$)/g, "").trim();
+        // Aggressive Title Cleaning: Remove HTML, Google Alerts prefixes, and extra whitespace
+        let cleanTitle = rawJob.title
+            .replace(/<\/?[^>]+(>|$)/g, "") // Remove HTML tags
+            .replace(/^Google Alert - /i, "") // Remove "Google Alert -" prefix if present
+            .replace(/\s+/g, " ") // Collapse whitespace
+            .trim();
+
+        // Heuristic: If description is truncated HTML, try to clean it too
+        const cleanDescription = rawJob.description
+            .replace(/<br\s*\/?>/gi, "\n") // Convert breaks to newlines
+            .replace(/<\/?[^>]+(>|$)/g, "") // Remove other tags
+            .trim();
 
         return {
             title: cleanTitle,
             company: rawJob.company.trim(),
-            description: rawJob.description,
+            description: cleanDescription, // Use cleaner description
             location: rawJob.location,
             sourceUrl: url,
             postedDate: new Date(rawJob.postedDate),
