@@ -58,6 +58,10 @@ export async function applyToJob(jobId: string, sourceUrl: string) {
         })
 
         if (count >= 3) {
+            // Send Email Notification (Async/Fire-and-forget to not block response too much, or await)
+            const { sendLimitReachedEmail } = await import('@/lib/email')
+            await sendLimitReachedEmail(user.email, user.name || 'User') // await to ensure it sends before throwing error? Or let it fail silently? best to await here.
+
             throw new Error("LIMIT_REACHED")
         }
     }

@@ -6,6 +6,11 @@ import UpgradeOverlay from '@/components/UpgradeOverlay'
 export default async function ClientsPage() {
     const user = await getCurrentUser()
 
+    // DEBUG LOGS (REMOVE LATER)
+    console.log("[DEBUG] /clients - User:", user ? `ID: ${user.id}` : 'NULL')
+    console.log("[DEBUG] /clients - User Tenant:", user?.tenant)
+    console.log("[DEBUG] /clients - Subscription:", user?.tenant?.subscriptionStatus)
+
     // 1. Not Logged In
     if (!user) {
         return (

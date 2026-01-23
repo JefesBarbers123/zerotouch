@@ -58,3 +58,35 @@ export async function sendNotification({ userId, subject, html, text }: { userId
         text
     })
 }
+
+export async function sendLimitReachedEmail(email: string, name: string) {
+    const subject = "You've reached your daily limit!"
+    const html = `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #1e3a8a;">Daily Limit Reached</h1>
+            <p>Hi ${name},</p>
+            <p>You have used your <strong>3 free job applications</strong> for today.</p>
+            
+            <div style="background-color: #eff6ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1e3a8a;">Why Upgrade?</h3>
+                <ul style="color: #4b5563;">
+                    <li><strong>Unlimited</strong> Job Applications</li>
+                    <li><strong>Priority</strong> Profile Visibility</li>
+                    <li><strong>Smart Alerts</strong> for new jobs</li>
+                    <li><strong>Direct Messaging</strong> with shops</li>
+                </ul>
+            </div>
+
+            <p>Maximize your chances and unlock full access to the platform.</p>
+            
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/upgrade" style="display: inline-block; background-color: #f59e0b; color: #1e3a8a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase;">
+                Upgrade Now
+            </a>
+            
+            <p style="margin-top: 30px; font-size: 12px; color: #9ca3af;">
+                The Zerotouches Team
+            </p>
+        </div>
+    `
+    return await sendEmail({ to: email, subject, html })
+}
