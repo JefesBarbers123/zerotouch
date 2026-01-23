@@ -23,6 +23,10 @@ const envSchema = z.object({
     // Resend (Email)
     RESEND_API_KEY: z.string().startsWith('re_').optional(),
 
+    // Adzuna (Job Ingestion)
+    ADZUNA_APP_ID: z.string().optional(),
+    ADZUNA_APP_KEY: z.string().optional(),
+
     // Google (Integrations)
     GOOGLE_CLIENT_ID: z.string().optional(),
     GOOGLE_CLIENT_SECRET: z.string().optional(),

@@ -1,6 +1,5 @@
-
-const { IngestionManager } = require('../src/lib/ingestion/manager');
-const { PrismaClient } = require('@prisma/client');
+import { IngestionManager } from '../src/lib/ingestion/manager';
+import { PrismaClient } from '@prisma/client';
 
 async function main() {
     const prisma = new PrismaClient();
