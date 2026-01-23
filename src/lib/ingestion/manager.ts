@@ -24,6 +24,16 @@ export class IngestionManager {
     }
 
     private getAdapter(type: string, config?: any): SourceAdapter {
+        if (type === 'MANUAL') {
+            // Manual sources are handled via the Admin UI, not ingestion scripts.
+            // Return a dummy adapter that returns empty list to prevent errors.
+            return {
+                fetchJobs: async () => [],
+                validate: () => true,
+                normalize: (raw) => ({} as any)
+            };
+        }
+
         if (type === 'SCRAPER') {
             // Config should come from the Source definition in DB (stored in a JSON field if we had one, or hardcoded for now)
             // For MVP, if we have specific scrapers, we might switch on URL or ID.
