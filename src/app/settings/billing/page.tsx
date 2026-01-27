@@ -3,7 +3,7 @@ import { getBillingData, createTopUpCheckout, createSubscriptionCheckout } from 
 import { formatAmount } from '@/lib/stripe'
 import { redirect } from 'next/navigation'
 
-export default async function BillingPage({ searchParams }: { searchParams: { success?: string, canceled?: string } }) {
+export default async function BillingPage({ searchParams }: { searchParams: { success?: string, canceled?: string, error?: string } }) {
     const data = await getBillingData()
     if (!data) redirect('/login')
 
@@ -24,6 +24,12 @@ export default async function BillingPage({ searchParams }: { searchParams: { su
             {searchParams.success && (
                 <div className="mb-8 p-4 bg-green-900/40 border-2 border-green-500 text-green-400 font-mono text-sm uppercase">
                     Transaction Successful. Your balance/status has been updated.
+                </div>
+            )}
+
+            {searchParams.error && (
+                <div className="mb-8 p-4 bg-red-900/40 border-2 border-red-500 text-red-400 font-mono text-sm uppercase">
+                    System Error: Payment Initialization Failed. Please check server logs or contact support.
                 </div>
             )}
 
