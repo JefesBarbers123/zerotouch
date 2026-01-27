@@ -57,7 +57,7 @@ export async function createTopUpCheckout(amount: number) {
         }
     } catch (e) {
         console.error("Failed to create Top Up Session:", e)
-        redirect('/settings/billing?error=PAYMENT_INIT_FAILED')
+        redirect(`/settings/billing?error=PAYMENT_INIT_FAILED&details=${encodeURIComponent((e as Error).message)}`)
     }
 }
 
@@ -89,6 +89,6 @@ export async function createSubscriptionCheckout() {
         }
     } catch (e) {
         console.error("Failed to create Subscription Session:", e)
-        redirect('/settings/billing?error=PAYMENT_INIT_FAILED')
+        redirect(`/settings/billing?error=PAYMENT_INIT_FAILED&details=${encodeURIComponent((e as Error).message)}`)
     }
 }
