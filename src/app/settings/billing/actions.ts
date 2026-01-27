@@ -25,6 +25,8 @@ export async function createTopUpCheckout(amount: number) {
     const user = await getCurrentUser()
     if (!user) throw new Error("Unauthorized")
 
+    let redirectUrl: string | null = null;
+
     try {
         // Amount in pence (e.g. 1000 = £10.00)
         const stripe = getStripe();
@@ -53,17 +55,23 @@ export async function createTopUpCheckout(amount: number) {
         })
 
         if (session.url) {
-            redirect(session.url)
+            redirectUrl = session.url
         }
     } catch (e) {
         console.error("Failed to create Top Up Session:", e)
         redirect(`/settings/billing?error=PAYMENT_INIT_FAILED&details=${encodeURIComponent((e as Error).message)}`)
+    }
+
+    if (redirectUrl) {
+        redirect(redirectUrl)
     }
 }
 
 export async function createSubscriptionCheckout() {
     const user = await getCurrentUser()
     if (!user) throw new Error("Unauthorized")
+
+    let redirectUrl: string | null = null;
 
     try {
         const stripe = getStripe();
@@ -85,10 +93,14 @@ export async function createSubscriptionCheckout() {
         })
 
         if (session.url) {
-            redirect(session.url)
+            redirectUrl = session.url
         }
     } catch (e) {
         console.error("Failed to create Subscription Session:", e)
         redirect(`/settings/billing?error=PAYMENT_INIT_FAILED&details=${encodeURIComponent((e as Error).message)}`)
+    }
+
+    if (redirectUrl) {
+        redirect(redirectUrl)
     }
 }
