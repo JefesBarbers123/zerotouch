@@ -16,7 +16,7 @@ const envSchema = z.object({
     TWILIO_PHONE_NUMBER: z.string().min(1).optional(),
 
     // Stripe (Payments)
-    STRIPE_SECRET_KEY: z.string().startsWith('sk_').optional(),
+    STRIPE_SECRET_KEY: z.string().refine(s => s.startsWith('sk_') || s.startsWith('rk_'), "Must start with sk_ or rk_").optional(),
     STRIPE_WEBHOOK_SECRET: z.string().startsWith('whsec_').optional(),
     STRIPE_PRICE_ID: z.string().optional(),
 
