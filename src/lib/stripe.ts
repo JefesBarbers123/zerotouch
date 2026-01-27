@@ -14,9 +14,15 @@ export function getStripe() {
     });
 }
 
+const stripePriceId = env.STRIPE_PRICE_ID;
+if (!stripePriceId) {
+    // We allow build to pass but runtime will fail if used
+    console.warn("WARN: STRIPE_PRICE_ID is missing. Payments will fail.");
+}
+
 export const PLANS = {
     PRO_MONTHLY: {
-        id: env.STRIPE_PRICE_ID || '', // Safe fallback for build
+        id: stripePriceId || 'missing_price_id',
         price: 3000,
         name: 'Operation & Systems Plan'
     }
