@@ -1,7 +1,23 @@
 import { getMessageHistory } from './actions'
 import { prisma } from '@/lib/prisma'
+import { getCurrentUser } from '@/lib/auth'
+import UpgradeOverlay from '@/components/UpgradeOverlay'
 
 export default async function MessagesPage() {
+    const user = await getCurrentUser()
+
+    if (user?.tenant?.subscriptionStatus === 'FREE') {
+        return (
+            <main className="relative min-h-screen p-8 max-w-7xl mx-auto w-full overflow-hidden">
+                <UpgradeOverlay type="UPGRADE_REQUIRED" />
+                <div className="filter blur-md select-none pointer-events-none opacity-50">
+                    <h1 className="text-2xl font-bold mb-4 text-white">Message Center</h1>
+                    <div className="bg-white rounded shadow p-4 h-96"></div>
+                </div>
+            </main>
+        )
+    }
+
     const messages = await getMessageHistory()
 
     // Also get some clients for a simple "New Message" UI test

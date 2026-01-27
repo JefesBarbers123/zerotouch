@@ -5,10 +5,36 @@ import { getDashboardStats, getAtRiskClients } from './actions'
 import Link from 'next/link'
 import ClientHealthWidget from './ClientHealthWidget'
 
+import UpgradeOverlay from '@/components/UpgradeOverlay'
+import { getCurrentUser } from '@/lib/auth'
+
 export default async function DashboardPage() {
     const stats = await getDashboardStats()
     const atRiskClients = await getAtRiskClients()
     const isOwner = stats.userRole === 'OWNER'
+    const user = await getCurrentUser()
+
+    if (user?.tenant?.subscriptionStatus === 'FREE') {
+        return (
+            <main className="relative min-h-screen p-8 max-w-7xl mx-auto w-full overflow-hidden">
+                <UpgradeOverlay type="UPGRADE_REQUIRED" />
+                <div className="filter blur-md select-none pointer-events-none opacity-50">
+                    <header className="mb-12 border-b-2 border-amber-400 pb-8">
+                        <h1 className="text-5xl font-black text-white mb-2">Dashboard</h1>
+                        <p className="font-mono text-sm text-amber-400/70 uppercase tracking-widest">
+                            Operator: <span className="text-white">{stats.userName}</span> // Role: <span className="text-white">{stats.userRole}</span>
+                        </p>
+                    </header>
+                    {/* Dummy content for visual background */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-40 bg-blue-900/50 border border-white/5 rounded-none" />
+                        ))}
+                    </div>
+                </div>
+            </main>
+        )
+    }
 
     return (
         <div className="p-8 max-w-7xl mx-auto w-full">
