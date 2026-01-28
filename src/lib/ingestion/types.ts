@@ -43,4 +43,6 @@ export type ScrapeTargetSelector = {
     description: string; // The URL to the description page, or the selector if on same page
     location: string;
     date?: string;
+    salary?: string;
+    jobType?: string;
 }

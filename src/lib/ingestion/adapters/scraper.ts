@@ -10,6 +10,26 @@ export class ScraperAdapter implements SourceAdapter {
         this.selector = selector;
     }
 
+    private parseDate(dateStr: string): Date {
+        const now = new Date();
+        const clean = dateStr.toLowerCase();
+
+        try {
+            if (clean.includes('ago')) {
+                const num = parseInt(clean.match(/\d+/)?.[0] || '0');
+                if (clean.includes('minute')) return new Date(now.getTime() - num * 60 * 1000);
+                if (clean.includes('hour')) return new Date(now.getTime() - num * 60 * 60 * 1000);
+                if (clean.includes('day')) return new Date(now.getTime() - num * 24 * 60 * 60 * 1000);
+                if (clean.includes('week')) return new Date(now.getTime() - num * 7 * 24 * 60 * 60 * 1000);
+                if (clean.includes('month')) return new Date(now.getTime() - num * 30 * 24 * 60 * 60 * 1000);
+            }
+            const parsed = new Date(dateStr);
+            return isNaN(parsed.getTime()) ? now : parsed;
+        } catch {
+            return now;
+        }
+    }
+
     async checkRobotsTxt(baseUrl: string, targetPath: string): Promise<boolean> {
         try {
             const robotsUrl = new URL('/robots.txt', baseUrl).toString();
@@ -51,9 +71,28 @@ export class ScraperAdapter implements SourceAdapter {
                 const location = $(el).find(this.selector.location).text().trim();
                 const link = $(el).find('a').attr('href'); // Naive link finding, might need selector
 
-                // Description implies often visiting the link. 
-                // For the listing page, we might just get a snippet.
-                // Deep scraping logic would go here if needed, but keeping it simple for listing scrape.
+                // New fields
+                let postedDate: Date = new Date();
+                let description = '';
+                let salary = '';
+                let jobType = '';
+
+                if (this.selector.date) {
+                    const dateStr = $(el).find(this.selector.date).text().trim();
+                    if (dateStr) postedDate = this.parseDate(dateStr);
+                }
+
+                if (this.selector.description) {
+                    description = $(el).find(this.selector.description).text().trim();
+                }
+
+                if (this.selector.salary) {
+                    salary = $(el).find(this.selector.salary).text().trim();
+                }
+
+                if (this.selector.jobType) {
+                    jobType = $(el).find(this.selector.jobType).text().trim();
+                }
 
                 if (title && link) {
                     jobs.push({
@@ -61,8 +100,10 @@ export class ScraperAdapter implements SourceAdapter {
                         company,
                         location,
                         url: new URL(link, sourceUrl).toString(),
-                        description: '', // Often empty on listing page
-                        postedDate: new Date(),
+                        description,
+                        postedDate,
+                        salary,
+                        jobType,
                         _raw: {},
                     });
                 }
