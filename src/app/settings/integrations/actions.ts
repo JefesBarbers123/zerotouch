@@ -79,84 +79,96 @@ export async function getIntegrationStatus() {
 }
 
 export async function syncCalendar(_formData?: FormData) {
-    const user = await getCurrentUser()
-    if (!user) throw new Error("Unauthorized")
+    try {
+        const user = await getCurrentUser()
+        if (!user) throw new Error("Unauthorized")
 
-    const integration = await prisma.integration.findFirst({
-        where: { tenantId: user.tenantId, provider: 'GOOGLE' }
-    })
-
-    if (!integration) throw new Error("No Google Account connected")
-
-    // Fetch from Google
-    // Note: If expired, we should refresh. Basic implementation for V2:
-    const events = await listEvents(integration.accessToken, integration.refreshToken)
-
-    let addedCount = 0
-
-    // Process events
-    for (const event of events) {
-        const start = event.start?.dateTime
-        if (!start) continue; // All day event? skip for now
-
-        // Check if visit exists OR we already synced this event ID
-        const existingVisit = await prisma.visit.findFirst({
-            where: {
-                tenantId: user.tenantId,
-                OR: [
-                    { googleEventId: event.id }, // Best check
-                    { date: new Date(start) }    // Fallback logic
-                ]
-            }
+        const integration = await prisma.integration.findFirst({
+            where: { tenantId: user.tenantId, provider: 'GOOGLE' }
         })
 
-        if (!existingVisit) {
-            const summary = event.summary || "Unknown Booking"
+        if (!integration) throw new Error("No Google Account connected")
 
-            const service = await prisma.service.findFirst({ where: { tenantId: user.tenantId } })
-            if (!service) continue
+        // Fetch from Google
+        // Note: If expired, we should refresh. Basic implementation for V2:
+        const events = await listEvents(integration.accessToken, integration.refreshToken)
 
-            let client = await prisma.client.findFirst({ where: { name: 'Google Calendar Import', tenantId: user.tenantId } })
-            if (!client) {
-                client = await prisma.client.create({
-                    data: {
-                        name: 'Google Calendar Import',
-                        mobile: '000-000-0000',
-                        tenantId: user.tenantId
-                    }
-                })
-            }
+        let addedCount = 0
 
-            await prisma.visit.create({
-                data: {
-                    date: new Date(start),
+        // Process events
+        for (const event of events) {
+            const start = event.start?.dateTime
+            if (!start) continue; // All day event? skip for now
+
+            // Check if visit exists OR we already synced this event ID
+            const existingVisit = await prisma.visit.findFirst({
+                where: {
                     tenantId: user.tenantId,
-                    clientId: client.id,
-                    barberId: user.id,
-                    serviceId: service.id,
-                    status: 'COMPLETED', // auto-complete for revenue visibility
-                    notes: `Synced from Google: ${summary}`,
-                    googleEventId: event.id
+                    OR: [
+                        { googleEventId: event.id }, // Best check
+                        { date: new Date(start) }    // Fallback logic
+                    ]
                 }
             })
+
+            if (!existingVisit) {
+                const summary = event.summary || "Unknown Booking"
+
+                const service = await prisma.service.findFirst({ where: { tenantId: user.tenantId } })
+                if (!service) continue
+
+                let client = await prisma.client.findFirst({ where: { name: 'Google Calendar Import', tenantId: user.tenantId } })
+                if (!client) {
+                    client = await prisma.client.create({
+                        data: {
+                            name: 'Google Calendar Import',
+                            mobile: '000-000-0000',
+                            tenantId: user.tenantId
+                        }
+                    })
+                }
+
+                await prisma.visit.create({
+                    data: {
+                        date: new Date(start),
+                        tenantId: user.tenantId,
+                        clientId: client.id,
+                        barberId: user.id,
+                        serviceId: service.id,
+                        status: 'COMPLETED', // auto-complete for revenue visibility
+                        notes: `Synced from Google: ${summary}`,
+                        googleEventId: event.id
+                    }
+                })
+                addedCount++
+            }
             addedCount++
         }
-        addedCount++
+
+    } catch (e) {
+        console.error("Failed to sync calendar:", e)
+        redirect(`/settings/integrations?error=SYNC_FAILED&details=${encodeURIComponent((e as Error).message)}`)
     }
 
     revalidatePath('/dashboard')
     revalidatePath('/check-in')
+    redirect('/settings/integrations?success=true')
 }
 
 export async function disconnectGoogle(_formData?: FormData) {
-    const user = await getCurrentUser()
-    if (!user) throw new Error("Unauthorized")
+    try {
+        const user = await getCurrentUser()
+        if (!user) throw new Error("Unauthorized")
 
-    await prisma.integration.deleteMany({
-        where: { tenantId: user.tenantId, provider: 'GOOGLE' }
-    })
+        await prisma.integration.deleteMany({
+            where: { tenantId: user.tenantId, provider: 'GOOGLE' }
+        })
 
-    revalidatePath('/settings/integrations')
+        revalidatePath('/settings/integrations')
+    } catch (e) {
+        console.error("Failed to disconnect Google:", e)
+        redirect(`/settings/integrations?error=DISCONNECT_FAILED&details=${encodeURIComponent((e as Error).message)}`)
+    }
 }
 
 export async function getImportHistory() {
@@ -182,45 +194,52 @@ export async function getImportHistory() {
 }
 
 export async function syncContacts(_formData?: FormData) {
-    const user = await getCurrentUser()
-    if (!user) return
+    try {
+        const user = await getCurrentUser()
+        if (!user) return
 
-    const integration = await prisma.integration.findFirst({
-        where: { tenantId: user.tenantId, provider: 'GOOGLE' }
-    })
+        const integration = await prisma.integration.findFirst({
+            where: { tenantId: user.tenantId, provider: 'GOOGLE' }
+        })
 
-    if (!integration) return
+        if (!integration) return
 
-    const connections = await getPeople(integration.accessToken, integration.refreshToken)
-    let addedCount = 0
+        const connections = await getPeople(integration.accessToken, integration.refreshToken)
+        let addedCount = 0
 
-    for (const person of connections) {
-        const name = person.names?.[0]?.displayName || 'Unknown Contact'
-        const email = person.emailAddresses?.[0]?.value
-        const phone = person.phoneNumbers?.[0]?.value
+        for (const person of connections) {
+            const name = person.names?.[0]?.displayName || 'Unknown Contact'
+            const email = person.emailAddresses?.[0]?.value
+            const phone = person.phoneNumbers?.[0]?.value
 
-        if (!email && !phone) continue
+            if (!email && !phone) continue
 
-        // Check for duplicates (Simple check by Email)
-        if (email) {
-            const existing = await prisma.client.findFirst({
-                where: { tenantId: user.tenantId, email }
+            // Check for duplicates (Simple check by Email)
+            if (email) {
+                const existing = await prisma.client.findFirst({
+                    where: { tenantId: user.tenantId, email }
+                })
+                if (existing) continue
+            }
+
+            await prisma.client.create({
+                data: {
+                    name,
+                    email: email || undefined,
+                    mobile: phone || '000-000-0000',
+                    tenantId: user.tenantId,
+                    notes: 'Imported from Google Contacts'
+                }
             })
-            if (existing) continue
+            addedCount++
         }
 
-        await prisma.client.create({
-            data: {
-                name,
-                email: email || undefined,
-                mobile: phone || '000-000-0000',
-                tenantId: user.tenantId,
-                notes: 'Imported from Google Contacts'
-            }
-        })
-        addedCount++
+    } catch (e) {
+        console.error("Failed to sync contacts:", e)
+        redirect(`/settings/integrations?error=SYNC_CONTACTS_FAILED&details=${encodeURIComponent((e as Error).message)}`)
     }
 
     revalidatePath('/dashboard')
     revalidatePath('/clients')
+    redirect('/settings/integrations?success=true')
 }
