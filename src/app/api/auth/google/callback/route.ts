@@ -24,6 +24,44 @@ export async function GET(request: NextRequest) {
             throw new Error("No access token received")
         }
 
+        // 1. CHECK FOR EXISTING SESSION (Integration Connect Flow)
+        const userId = cookies().get('userId')?.value
+        if (userId) {
+            const user = await prisma.user.findUnique({ where: { id: userId } })
+
+            if (user) {
+                // Save Integration
+                const existing = await prisma.integration.findFirst({
+                    where: { tenantId: user.tenantId, provider: 'GOOGLE' }
+                })
+
+                if (existing) {
+                    await prisma.integration.update({
+                        where: { id: existing.id },
+                        data: {
+                            accessToken: tokens.access_token,
+                            refreshToken: tokens.refresh_token || existing.refreshToken,
+                            expiresAt: BigInt(tokens.expiry_date || 0)
+                        }
+                    })
+                } else {
+                    await prisma.integration.create({
+                        data: {
+                            tenantId: user.tenantId,
+                            provider: 'GOOGLE',
+                            accessToken: tokens.access_token,
+                            refreshToken: tokens.refresh_token,
+                            expiresAt: BigInt(tokens.expiry_date || 0)
+                        }
+                    })
+                }
+
+                // Redirect back to settings
+                return NextResponse.redirect(new URL('/settings/integrations?success=true', request.url))
+            }
+        }
+
+        // 2. NO SESSION (Login Flow)
         // Get user info
         const googleUser = await getUserInfo(tokens.access_token)
         const email = googleUser.email
