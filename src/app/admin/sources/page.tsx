@@ -55,8 +55,8 @@ export default async function SourcesPage() {
                                 </td>
                                 <td className="p-4 flex gap-2">
                                     <form action={refreshSource.bind(null, source.id)}>
-                                        <button className="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded text-xs">
-                                            Refresh
+                                        <button className="bg-blue-600 hover:bg-blue-500 border border-blue-400 px-3 py-1 rounded text-xs font-bold shadow-sm">
+                                            Force Refresh
                                         </button>
                                     </form>
                                     <form action={toggleSource.bind(null, source.id, source.isActive)}>
