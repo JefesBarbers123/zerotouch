@@ -19,12 +19,30 @@ export async function addSource(formData: FormData) {
     const name = formData.get('name') as string;
     const url = formData.get('url') as string;
     const type = formData.get('type') as string;
+    const selectorsRaw = formData.get('selectors') as string;
 
     if (!name || !url || !type) return;
 
+    let selectors = null;
+    if (selectorsRaw && type === 'SCRAPER') {
+        try {
+            selectors = JSON.parse(selectorsRaw);
+        } catch (e) {
+            console.error('Invalid JSON for selectors');
+            // Allow creation but log error? Or fail? 
+            // Better to fail or ignore invalid config.
+        }
+    }
+
     try {
         await prisma.jobSource.create({
-            data: { name, url, type, isActive: true },
+            data: {
+                name,
+                url,
+                type,
+                isActive: true,
+                selectors: selectors || undefined
+            },
         });
         revalidatePath('/admin/sources');
     } catch (error) {

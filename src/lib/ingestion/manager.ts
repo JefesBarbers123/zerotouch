@@ -35,10 +35,9 @@ export class IngestionManager {
         }
 
         if (type === 'SCRAPER') {
-            // Config should come from the Source definition in DB (stored in a JSON field if we had one, or hardcoded for now)
-            // For MVP, if we have specific scrapers, we might switch on URL or ID.
-            // Returning a default safe scraper or throwing for now if no config.
-            return new ScraperAdapter(config || { container: 'body', title: 'h1', company: '.company', location: '.location', description: '.desc' });
+            // Use provided config or fall back to default
+            const safeConfig = config || { container: 'body', title: 'h1', company: '.company', location: '.location', description: '.desc' };
+            return new ScraperAdapter(safeConfig);
         }
         const adapter = this.adapters.get(type);
         if (!adapter) throw new Error(`Unknown adapter type: ${type}`);
@@ -63,7 +62,7 @@ export class IngestionManager {
         try {
             // In a real world, 'config' for scraper would be stored in DB.
             // We'll assume a generic scraper config for demonstration or specific logic here.
-            const adapter = this.getAdapter(source.type);
+            const adapter = this.getAdapter(source.type, source.selectors as any);
 
             // 1. Safety: Check Robots.txt if it's a scraper
             if (source.type === 'SCRAPER') {

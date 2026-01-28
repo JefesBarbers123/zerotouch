@@ -276,6 +276,7 @@ model JobSource {
   lastChecked DateTime?
   lastStatus  String?  // "SUCCESS", "ERROR"
   errorMsg    String?
+  selectors   Json?    // Stores custom CSS selectors for scraper
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   jobs        Job[]
