@@ -41,7 +41,7 @@ export async function addSource(formData: FormData) {
                 url,
                 type,
                 isActive: true,
-                selectors: selectors || undefined
+                selectors: (selectors || undefined) as any
             },
         });
         revalidatePath('/admin/sources');

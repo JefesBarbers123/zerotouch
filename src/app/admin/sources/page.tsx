@@ -10,7 +10,7 @@ export default async function SourcesPage() {
 
     return (
         <div className="p-8 text-white min-h-screen bg-neutral-900">
-            <h1 className="text-3xl font-bold mb-8">Job Sources</h1>
+            <h1 className="text-3xl font-bold mb-8">Job Sources (v2)</h1>
 
             <div className="bg-neutral-800 p-6 rounded-xl mb-8 border border-neutral-700">
                 <h2 className="text-xl font-semibold mb-4">Add New Source</h2>
