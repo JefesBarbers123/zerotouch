@@ -95,6 +95,15 @@ export default function MobileNav({ user }: { user: any }) {
                                         <NavLink href="/admin/jobs">Job Moderation</NavLink>
                                     </div>
                                 )}
+                                {user.role === 'SUPER_ADMIN' && (
+                                    <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
+                                        <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">Master Control</p>
+                                        <NavLink href="/admin/super">Super Dashboard</NavLink>
+                                        <NavLink href="/admin/sources">Job Sources</NavLink>
+                                        <NavLink href="/admin/reports">Content Reports</NavLink>
+                                        <NavLink href="/admin/jobs">Job Moderation</NavLink>
+                                    </div>
+                                )}
 
                                 <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
                                     <form action={logout}>
