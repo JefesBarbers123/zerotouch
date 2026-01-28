@@ -3,6 +3,17 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
+import { IngestionManager } from '@/lib/ingestion/manager';
+
+export async function refreshSource(id: string, _formData?: FormData) {
+    try {
+        const manager = new IngestionManager();
+        await manager.processSource(id);
+        revalidatePath('/admin/sources');
+    } catch (error) {
+        console.error('Failed to refresh source', error);
+    }
+}
 
 export async function addSource(formData: FormData) {
     const name = formData.get('name') as string;

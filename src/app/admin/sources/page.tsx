@@ -1,6 +1,6 @@
 
 import { prisma } from '@/lib/prisma';
-import { addSource, deleteSource, toggleSource } from './actions';
+import { addSource, deleteSource, toggleSource, refreshSource } from './actions';
 
 // Force dynamic to ensure fresh data
 export const dynamic = 'force-dynamic';
@@ -54,6 +54,11 @@ export default async function SourcesPage() {
                                     {source.errorMsg && <div className="text-xs text-red-400 mt-1 max-w-xs truncate">{source.errorMsg}</div>}
                                 </td>
                                 <td className="p-4 flex gap-2">
+                                    <form action={refreshSource.bind(null, source.id)}>
+                                        <button className="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded text-xs">
+                                            Refresh
+                                        </button>
+                                    </form>
                                     <form action={toggleSource.bind(null, source.id, source.isActive)}>
                                         <button className="bg-neutral-700 hover:bg-neutral-600 px-3 py-1 rounded text-xs">
                                             {source.isActive ? 'Disable' : 'Enable'}
