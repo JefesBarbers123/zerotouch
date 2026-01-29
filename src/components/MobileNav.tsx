@@ -82,6 +82,15 @@ export default function MobileNav({ user }: { user: any }) {
                                     {user.role === 'OWNER' && (
                                         <NavLink href="/shop/profile">Shop Profile</NavLink>
                                     )}
+                                    {user.role === 'SUPER_ADMIN' && (
+                                        <>
+                                            <div className="pt-4 pb-2 text-xs font-bold text-amber-500/50 uppercase tracking-widest mt-2 border-t border-white/10">Master Control</div>
+                                            <NavLink href="/admin/super">Super Dashboard</NavLink>
+                                            <NavLink href="/admin/sources">Job Sources</NavLink>
+                                            <NavLink href="/admin/reports">Content Reports</NavLink>
+                                            <NavLink href="/admin/jobs">Job Moderation</NavLink>
+                                        </>
+                                    )}
                                     <NavLink href="/jobs">Job Board</NavLink>
                                     <NavLink href="/notifications">Alerts</NavLink>
                                     <NavLink href="/assisted">AI Console</NavLink>
