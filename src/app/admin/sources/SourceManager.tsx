@@ -6,10 +6,11 @@ import { addSource, deleteSource, toggleSource, refreshSource } from './actions'
 
 interface SourceManagerProps {
     sources: any[]; // Using any to bypass loose type matching with serialized dates
+    initialTab?: 'list' | 'builder' | 'scraper';
 }
 
-export default function SourceManager({ sources }: SourceManagerProps) {
-    const [activeTab, setActiveTab] = useState<'list' | 'builder' | 'scraper'>('list');
+export default function SourceManager({ sources, initialTab = 'list' }: SourceManagerProps) {
+    const [activeTab, setActiveTab] = useState<'list' | 'builder' | 'scraper'>(initialTab);
 
     // Scraper form state
     const [scraperName, setScraperName] = useState('');

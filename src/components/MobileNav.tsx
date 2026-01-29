@@ -86,7 +86,9 @@ export default function MobileNav({ user }: { user: any }) {
                                         <>
                                             <div className="pt-4 pb-2 text-xs font-bold text-amber-500/50 uppercase tracking-widest mt-2 border-t border-white/10">Master Control</div>
                                             <NavLink href="/admin/super">Super Dashboard</NavLink>
-                                            <NavLink href="/admin/sources">Job Sources</NavLink>
+                                            <NavLink href="/admin/sources">All Sources</NavLink>
+                                            <NavLink href="/admin/sources?tab=builder">RSS Feed Builder</NavLink>
+                                            <NavLink href="/admin/sources?tab=scraper">Web Scraper Tool</NavLink>
                                             <NavLink href="/admin/reports">Content Reports</NavLink>
                                             <NavLink href="/admin/jobs">Job Moderation</NavLink>
                                         </>
