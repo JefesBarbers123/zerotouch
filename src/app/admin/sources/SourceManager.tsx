@@ -5,7 +5,7 @@ import { JobSource } from '@prisma/client';
 import { addSource, deleteSource, toggleSource, refreshSource } from './actions';
 
 interface SourceManagerProps {
-    sources: JobSource[];
+    sources: any[]; // Using any to bypass loose type matching with serialized dates
 }
 
 export default function SourceManager({ sources }: SourceManagerProps) {
@@ -37,8 +37,8 @@ export default function SourceManager({ sources }: SourceManagerProps) {
                 <button
                     onClick={() => setActiveTab('list')}
                     className={`pb-3 px-2 font-bold uppercase tracking-wider text-sm transition-colors border-b-2 ${activeTab === 'list'
-                            ? 'border-amber-500 text-amber-500'
-                            : 'border-transparent text-neutral-500 hover:text-neutral-300'
+                        ? 'border-amber-500 text-amber-500'
+                        : 'border-transparent text-neutral-500 hover:text-neutral-300'
                         }`}
                 >
                     All Sources
@@ -46,8 +46,8 @@ export default function SourceManager({ sources }: SourceManagerProps) {
                 <button
                     onClick={() => setActiveTab('builder')}
                     className={`pb-3 px-2 font-bold uppercase tracking-wider text-sm transition-colors border-b-2 ${activeTab === 'builder'
-                            ? 'border-amber-500 text-amber-500'
-                            : 'border-transparent text-neutral-500 hover:text-neutral-300'
+                        ? 'border-amber-500 text-amber-500'
+                        : 'border-transparent text-neutral-500 hover:text-neutral-300'
                         }`}
                 >
                     RSS Feed Builder
@@ -55,8 +55,8 @@ export default function SourceManager({ sources }: SourceManagerProps) {
                 <button
                     onClick={() => setActiveTab('scraper')}
                     className={`pb-3 px-2 font-bold uppercase tracking-wider text-sm transition-colors border-b-2 ${activeTab === 'scraper'
-                            ? 'border-amber-500 text-amber-500'
-                            : 'border-transparent text-neutral-500 hover:text-neutral-300'
+                        ? 'border-amber-500 text-amber-500'
+                        : 'border-transparent text-neutral-500 hover:text-neutral-300'
                         }`}
                 >
                     Web Scraper Tool
