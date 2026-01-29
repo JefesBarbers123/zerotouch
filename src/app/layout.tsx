@@ -52,6 +52,19 @@ export default async function RootLayout({
                     </p>
                   </div>
 
+                  {/* Master Control - SUPER_ADMIN ONLY */}
+                  {user.role === 'SUPER_ADMIN' && (
+                    <div className="mb-6 border-b-2 border-red-500/20 pb-4">
+                      <p className="font-mono text-xs font-bold uppercase text-red-500 mb-4 tracking-wider pl-2">Master Control</p>
+                      <NavLink href="/admin/super" className="text-red-400 hover:text-red-200">Super Dashboard</NavLink>
+                      <NavLink href="/admin/sources" className="text-red-400 hover:text-red-200">All Sources</NavLink>
+                      <NavLink href="/admin/sources?tab=builder" className="text-red-400 hover:text-red-200">RSS Feed Builder</NavLink>
+                      <NavLink href="/admin/sources?tab=scraper" className="text-red-400 hover:text-red-200">Web Scraper Tool</NavLink>
+                      <NavLink href="/admin/reports" className="text-red-400 hover:text-red-200">Content Reports</NavLink>
+                      <NavLink href="/admin/jobs" className="text-red-400 hover:text-red-200">Job Moderation</NavLink>
+                    </div>
+                  )}
+
                   <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">Operations</p>
                   {user.tenant.subscriptionStatus === 'ACTIVE' ? (
                     <>
