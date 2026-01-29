@@ -5,6 +5,7 @@ import './globals.css'
 import IncomingCallToast from '@/components/IncomingCallToast'
 import MobileNav from '@/components/MobileNav'
 
+// Force deployment refresh - 2026-01-29
 export const metadata = {
   title: 'Zerotouches (SaaS)',
   description: 'Barber Retention System',
