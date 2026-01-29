@@ -23,11 +23,6 @@ export default async function SourcesPage() {
                         <option value="ADZUNA">Adzuna API</option>
                         <option value="SCRAPER">Scraper</option>
                     </select>
-                    <textarea
-                        name="selectors"
-                        placeholder='Selectors (JSON) e.g. {"container": ".job", "title": "h2"}'
-                        className="bg-neutral-900 border border-neutral-700 p-2 rounded text-white font-mono text-sm h-10 md:h-auto resize-y"
-                    />
                     <button className="bg-amber-500 text-black font-bold px-4 py-2 rounded hover:bg-amber-400">Add</button>
                 </form>
             </div>
@@ -53,7 +48,6 @@ export default async function SourcesPage() {
                                         {source.isActive ? 'Active' : 'Inactive'}
                                     </span>
                                     {source.lastStatus === 'ERROR' && <span className="ml-2 text-xs text-red-500">Error</span>}
-                                    {(source as any).selectors && <span className="ml-2 text-xs text-blue-400" title={JSON.stringify((source as any).selectors)}>Configured</span>}
                                 </td>
                                 <td className="p-4 text-sm text-neutral-400">
                                     {source.lastChecked ? source.lastChecked.toLocaleString() : 'Never'}

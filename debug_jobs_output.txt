@@ -1,26 +1,29 @@
 --- Job Sources ---
 [cmkpq1jyr00008r8mgdg8139d] Indeed UK (RSS) (RSS) - Active: true | Last Status: SUCCESS | Error: null
 [cmkpq4f8j00003gseozxelr7d] Adzuna UK (ADZUNA) - Active: true | Last Status: SUCCESS | Error: null
+[cmkpwi8la00009uedb1or0p52] Manual Upload (MANUAL) - Active: true | Last Status: SUCCESS | Error: null
+[cmkpx8w8k0001mw3h4qhi5usd] Zerotouches Google RSS Feed (RSS) - Active: true | Last Status: SUCCESS | Error: null
 
 --- Jobs (Last 20) ---
-Total Jobs: 46
-- [Adzuna UK] Sous Chef @ Searcys (ID: cmkpva0a30001t27wabljuh7o)
-- [Adzuna UK] Technical Coach in Hairdressing (Barber) @ HULL COLLEGE GROUP (ID: cmkpq80jr0007znwm4q30c5xt)
-- [Adzuna UK] Lecturer Hair & Barbering @ Herts Resourcing Group Ltd (ID: cmkpq809h0003znwmhxrbpfxn)
-- [Adzuna UK] Mechanical Maintenance Engineer @ CBW Staffing Solutions Ltd (ID: cmkpq81rs0011znwmmxx7bpts)
-- [Adzuna UK] Junior/Semi Senior Accountant @ Barber Mclelland Ltd (ID: cmkpq81p3000zznwm30wttphz)
-- [Adzuna UK] Specialist Support Tutor - Foundation Learning @ Basingstoke College of Technology (ID: cmkpq83il0023znwmy5v4tosc)
-- [Adzuna UK] Sessional Creative Industries Lecturer @ Basingstoke College of Technology (ID: cmkpq83zl002dznwm1mv2zqhr)
-- [Adzuna UK] Interventions Worker @ Basingstoke College of Technology (ID: cmkpq83lf0025znwm6txr8fip)
-- [Adzuna UK] Sessional English Lecturer @ Basingstoke College of Technology (ID: cmkpq83w1002bznwm6mfsmq2a)
-- [Adzuna UK] Graduate Recruitment Consultant @ Virtus Talent (ID: cmkpq81u80013znwmhqx11wlq)
-- [Adzuna UK] Recruitment Consultant @ Tiger Resourcing Group (ID: cmkpq82jq001lznwm4afv2ygp)
-- [Adzuna UK] Interventions Worker @ Basingstoke College of Technology (ID: cmkpq83r20029znwmxbbunerl)
-- [Adzuna UK] Specialist Support Tutor - Foundation Learning @ Basingstoke College of Technology (ID: cmkpq83oo0027znwm3ct99mvj)
-- [Adzuna UK] Lecturer - Hairdressing & Barbering @ Wirral Metropolitan College (ID: cmkpq80fc0005znwmb7165awe)
-- [Adzuna UK] Apartment Servicing Maintenance Engineer @ CBW Staffing Solutions (ID: cmkpq82yz001vznwmm7gqaw2l)
-- [Adzuna UK] Curator - Barber Institute of Fine Art - 106868 - Grade 6 @ The University of Birmingham (ID: cmkpq81bu000pznwmobmgchx9)
-- [Adzuna UK] Freelance Designers @ Map Project Office (ID: cmkpq842m002fznwm680l8l76)
-- [Adzuna UK] Electrical/Mechanical Maintenance Engineer @ CBW Staffing Solutions Ltd (ID: cmkpq821t0019znwme6iia0h1)
-- [Adzuna UK] Mechanical Maintenance Engineer @ CBW Staffing Solutions (ID: cmkpq82p5001pznwm7zn5bfis)
-- [Adzuna UK] Qualified Accountant - Client Manager @ Barber Mclelland Ltd (ID: cmkpq819o000nznwm3d8h2wr3)
+Total Jobs: 7
+- [Adzuna UK] Technical Coach in Hairdressing (Barber) @ HULL COLLEGE GROUP (ID: cmkpw34ps000710fhen4q86bv)
+  Published: true | Flagged: false
+  Posted: Thu Jan 22 2026 00:45:21 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Lecturer Hair & Barbering @ Herts Resourcing Group Ltd (ID: cmkpw34n3000310fhm4n5wx3a)
+  Published: true | Flagged: false
+  Posted: Wed Jan 21 2026 14:58:39 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Lecturer - Hairdressing & Barbering @ Wirral Metropolitan College (ID: cmkpw34ok000510fhrqttgfbj)
+  Published: true | Flagged: false
+  Posted: Thu Jan 15 2026 00:39:20 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Curator - Barber Institute of Fine Art - 106868 - Grade 6 @ The University of Birmingham (ID: cmkpw34rp000b10fhpd87rfi6)
+  Published: true | Flagged: false
+  Posted: Tue Jan 13 2026 09:25:58 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Hairdresser / Barber @ THG (ID: cmkpw34l9000110fhbuudp7oa)
+  Published: true | Flagged: false
+  Posted: Wed Jan 07 2026 09:22:42 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Senior Stylist @ Toni&Guy (ID: cmkpw34sp000d10fh0fxu31ti)
+  Published: true | Flagged: false
+  Posted: Sat Dec 06 2025 15:15:18 GMT+0000 (Greenwich Mean Time) | Expires: null
+- [Adzuna UK] Barber for Orient Express Sailing Yachts @ V.Group (ID: cmkpw34qr000910fh4s5quvl9)
+  Published: true | Flagged: false
+  Posted: Fri Oct 24 2025 14:10:40 GMT+0100 (British Summer Time) | Expires: null

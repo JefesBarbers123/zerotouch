@@ -45,3 +45,7 @@ verify_final.txt
 
 .vercel
 .env*.local
+
+*_debug_*.txt
+git_status*.txt
+*.log

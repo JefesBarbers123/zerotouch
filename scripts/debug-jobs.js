@@ -30,6 +30,13 @@ async function main() {
 
     jobs.forEach(j => {
         log(`- [${j.source.name}] ${j.title} @ ${j.company} (ID: ${j.id})`);
+
+        // Highlight potential issues
+        if (j.title.includes('<b>') || j.title.includes('&amp;')) log(`  ⚠️ DIRTY TITLE Detected`);
+        if (j.sourceUrl.includes('google.com/url')) log(`  ⚠️ DIRTY URL Detected`);
+
+        log(`  Published: ${j.isPublished} | Flagged: ${j.isFlagged}`);
+        log(`  Posted: ${j.postedDate} | Expires: ${j.expiryDate}`);
     });
 
     fs.writeFileSync('debug_jobs_output.txt', output);
