@@ -1,6 +1,7 @@
 # Barber Retention SaaS (Project Anti-Gravity)
 
 A vertical SaaS for barber businesses focused on client retention, rebooking, and LTV.
+<!-- Build Trigger: 2026-01-29 v4 -->
 
 ## Quick Start
 
