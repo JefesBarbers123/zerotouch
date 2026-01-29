@@ -98,17 +98,7 @@ export default async function RootLayout({
                       <NavLink href="/admin/jobs">Job Moderation</NavLink>
                     </div>
                   )}
-                  {user.role === 'SUPER_ADMIN' && (
-                    <div className="pt-4 mt-4 border-t-2 border-amber-400/20">
-                      <p className="font-mono text-xs font-bold uppercase text-amber-400/50 mb-4 tracking-wider pl-2">Master Control</p>
-                      <NavLink href="/admin/super">Super Dashboard</NavLink>
-                      <NavLink href="/admin/sources">All Sources</NavLink>
-                      <NavLink href="/admin/sources?tab=builder">RSS Feed Builder</NavLink>
-                      <NavLink href="/admin/sources?tab=scraper">Web Scraper Tool</NavLink>
-                      <NavLink href="/admin/reports">Content Reports</NavLink>
-                      <NavLink href="/admin/jobs">Job Moderation</NavLink>
-                    </div>
-                  )}
+                  {/* Master Control moved to top */}
                 </>
               ) : (
                 <>
