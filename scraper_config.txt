@@ -1,0 +1,14 @@
+﻿{
+  "id": "cmkyfuhy20000csnlj9m33ec2",
+  "name": "trabajo scraper",
+  "type": "SCRAPER",
+  "url": "https://gb.trabajo.org/jobs-barber",
+  "isActive": true,
+  "lastChecked": "2026-01-29T12:20:17.549Z",
+  "lastStatus": "SUCCESS",
+  "errorMsg": null,
+  "selectors": null,
+  "createdAt": "2026-01-28T19:48:43.994Z",
+  "updatedAt": "2026-01-29T12:20:17.555Z"
+}
+Total jobs from this source: 1

@@ -84,6 +84,9 @@ export async function createSubscriptionCheckout() {
                 },
             ],
             mode: 'subscription',
+            subscription_data: {
+                trial_period_days: 7
+            },
             success_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
             cancel_url: `${env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
             metadata: {

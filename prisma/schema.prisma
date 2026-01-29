@@ -22,6 +22,7 @@ model Tenant {
   stripeCustomerId    String?
   subscriptionStatus  String              @default("FREE")
   walletBalance       Decimal             @default(0.00)
+  jobSearchCount      Int                 @default(0)
   smsAutoReplyEnabled Boolean             @default(true)
   smsAutoReplyMessage String?             @default("Sorry, I missed your call. Whats up? Ill call you back in a second")
   retentionSmsEnabled Boolean             @default(false)

@@ -18,6 +18,37 @@ export default async function JobsPage({
     const query = searchParams.q || '';
     const location = searchParams.l || '';
 
+    // Check Access & Limits
+    const { getCurrentUser } = await import('@/lib/auth');
+    const user = await getCurrentUser();
+
+    // If searching (params present)
+    if (query || location) {
+        if (user) {
+            const isTrial = ['FREE', 'TRIAL'].includes(user.tenant.subscriptionStatus);
+            if (isTrial) {
+                if (user.tenant.jobSearchCount >= 7) {
+                    // Limit Reached
+                    return (
+                        <div className="min-h-screen bg-blue-950 text-white p-6 md:p-12 font-sans flex flex-col items-center justify-center text-center">
+                            <h1 className="text-4xl font-black uppercase text-amber-400 mb-4">Search Limit Reached</h1>
+                            <p className="text-xl mb-8 max-w-lg">You have reached the limit of 7 job searches on your trial account. Please upgrade to continue accessing curated barber opportunities.</p>
+                            <Link href="/settings/billing" className="bg-amber-400 hover:bg-amber-300 text-blue-950 font-black uppercase tracking-widest py-4 px-8 border-2 border-amber-400 transition-all">
+                                Upgrade to Pro
+                            </Link>
+                        </div>
+                    );
+                }
+
+                // Increment Count
+                await prisma.tenant.update({
+                    where: { id: user.tenantId },
+                    data: { jobSearchCount: { increment: 1 } }
+                });
+            }
+        }
+    }
+
     const jobs = await prisma.job.findMany({
         where: {
             isPublished: true,

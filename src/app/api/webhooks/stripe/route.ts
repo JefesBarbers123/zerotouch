@@ -41,11 +41,17 @@ export async function POST(req: Request) {
         }
 
         if (type === 'SUBSCRIPTION') {
+            // Fetch subscription to get status (active vs trialing)
+            const subscriptionId = session.subscription as string;
+            const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+
+            const status = subscription.status === 'trialing' ? 'TRIAL' : 'ACTIVE';
+
             // Activate Subscription
             await prisma.tenant.update({
                 where: { id: tenantId },
                 data: {
-                    subscriptionStatus: 'ACTIVE',
+                    subscriptionStatus: status,
                     stripeCustomerId: session.customer as string
                 }
             })
@@ -54,11 +60,9 @@ export async function POST(req: Request) {
             await prisma.walletTransaction.create({
                 data: {
                     tenantId,
-                    amount: Number(session.amount_total) / 100, // convert to units if needed, but usually we store value. logic says walletBalance is decimal. 
-                    // Actually subscription cost doesn't go to wallet balance, it pays for the service.
-                    // But we should log it.
+                    amount: Number(session.amount_total) / 100,
                     type: 'SUBSCRIPTION_PAYMENT',
-                    description: 'Monthly System Access'
+                    description: `Subscription Payment (${status})`
                 }
             })
 
