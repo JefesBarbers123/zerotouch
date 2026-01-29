@@ -162,6 +162,10 @@ export default async function RootLayout({
                 </div>
               </div>
             )}
+            {/* DEBUG: Temporary Role Display */}
+            <div className="text-[10px] text-zinc-500 p-2 text-center opacity-50 hover:opacity-100">
+              Role: {user?.role || 'Guest'}
+            </div>
           </aside>
 
 
