@@ -10,6 +10,10 @@ export class ScraperAdapter implements SourceAdapter {
         this.selector = selector;
     }
 
+    private cleanText(text: string): string {
+        return text.replace(/\s+/g, ' ').trim();
+    }
+
     private parseDate(dateStr: string): Date {
         const now = new Date();
         const clean = dateStr.toLowerCase();
@@ -66,9 +70,9 @@ export class ScraperAdapter implements SourceAdapter {
             const jobs: RawJob[] = [];
 
             $(this.selector.container).each((_, el) => {
-                const title = $(el).find(this.selector.title).text().trim();
-                const company = $(el).find(this.selector.company).text().trim();
-                const location = $(el).find(this.selector.location).text().trim();
+                const title = this.cleanText($(el).find(this.selector.title).text());
+                const company = this.cleanText($(el).find(this.selector.company).text());
+                const location = this.cleanText($(el).find(this.selector.location).text());
                 const link = $(el).find('a').attr('href'); // Naive link finding, might need selector
 
                 // New fields
@@ -78,20 +82,20 @@ export class ScraperAdapter implements SourceAdapter {
                 let jobType = '';
 
                 if (this.selector.date) {
-                    const dateStr = $(el).find(this.selector.date).text().trim();
+                    const dateStr = this.cleanText($(el).find(this.selector.date).text());
                     if (dateStr) postedDate = this.parseDate(dateStr);
                 }
 
                 if (this.selector.description) {
-                    description = $(el).find(this.selector.description).text().trim();
+                    description = this.cleanText($(el).find(this.selector.description).text());
                 }
 
                 if (this.selector.salary) {
-                    salary = $(el).find(this.selector.salary).text().trim();
+                    salary = this.cleanText($(el).find(this.selector.salary).text());
                 }
 
                 if (this.selector.jobType) {
-                    jobType = $(el).find(this.selector.jobType).text().trim();
+                    jobType = this.cleanText($(el).find(this.selector.jobType).text());
                 }
 
                 if (title && link) {
