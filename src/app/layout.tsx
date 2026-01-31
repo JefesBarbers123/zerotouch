@@ -180,7 +180,6 @@ export default async function RootLayout({
               name: user.name,
               email: user.email,
               role: user.role,
-              image: user.image,
               tenant: {
                 name: user.tenant.name,
                 walletBalance: Number(user.tenant.walletBalance || 0),
