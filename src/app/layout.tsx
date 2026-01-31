@@ -177,10 +177,14 @@ export default async function RootLayout({
           {/* Flex layout handles spacing strictly now - no magic margins */}
           <main className="flex-1 flex flex-col min-h-screen bg-blue-950 text-amber-400 selection:bg-amber-400 selection:text-blue-950 w-full">
             <MobileNav user={user ? {
-              ...user,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+              image: user.image,
               tenant: {
-                ...user.tenant,
-                walletBalance: Number(user.tenant.walletBalance || 0)
+                name: user.tenant.name,
+                walletBalance: Number(user.tenant.walletBalance || 0),
+                subscriptionStatus: user.tenant.subscriptionStatus
               }
             } : null} />
             <IncomingCallToast />
