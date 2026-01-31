@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { JobSource } from '@prisma/client';
 import { addSource, deleteSource, toggleSource, refreshSource } from './actions';
 
@@ -11,6 +11,11 @@ interface SourceManagerProps {
 
 export default function SourceManager({ sources, initialTab = 'list' }: SourceManagerProps) {
     const [activeTab, setActiveTab] = useState<'list' | 'builder' | 'scraper'>(initialTab);
+
+    // Sync tab when prop changes (e.g. navigation via sidebar)
+    useEffect(() => {
+        setActiveTab(initialTab);
+    }, [initialTab]);
 
     // Scraper form state
     const [scraperName, setScraperName] = useState('');
